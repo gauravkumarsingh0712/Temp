@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        android:src="@drawable/vault_4" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/imageView"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.0"
+        />
+
+
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline2"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.03"
+        tools:layout_editor_absoluteY="18dp"
+        tools:layout_editor_absoluteX="0dp" />
+
+
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline8"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="206dp" />
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline15"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.17"
+        tools:layout_editor_absoluteY="102dp"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <EditText
+        android:id="@+id/fname"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:textColor="@color/white"
+        android:paddingLeft="20dp"
+        android:background="@drawable/rounded_border_edittext"
+        android:hint="First"
+        android:textColorHint="@color/gray"
+        android:inputType="textPersonName"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline16"
+        app:layout_constraintRight_toLeftOf="@+id/guideline17"
+        app:layout_constraintTop_toTopOf="@+id/guideline15"
+        android:layout_marginTop="45dp"
+        android:visibility="visible"/>
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline16"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.04"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline17"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.96"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="395dp" />
+
+    <EditText
+        android:id="@+id/lname"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:paddingLeft="20dp"
+        android:ems="10"
+        android:textColorHint="@color/Gray"
+        android:textColor="@color/white"
+        android:background="@drawable/rounded_border_edittext"
+        android:hint="Last"
+        android:inputType="textPersonName"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline16"
+        app:layout_constraintRight_toLeftOf="@+id/guideline17"
+        app:layout_constraintTop_toBottomOf="@+id/fname"
+        android:visibility="visible"
+        />
+
+    <Button
+        android:id="@+id/btn_signup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/apptheme_color"
+        android:text="NEXT"
+        android:textColor="@color/white"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline16"
+        app:layout_constraintRight_toLeftOf="@+id/guideline17"
+        app:layout_constraintBottom_toTopOf="@+id/guideline20"
+        android:layout_marginBottom="45dp"
+        app:layout_constraintTop_toTopOf="@+id/guideline42"
+        android:layout_marginTop="8dp"
+        app:layout_constraintVertical_bias="1.0"
+        android:visibility="visible"/>
+
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline20"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.95"
+        tools:layout_editor_absoluteY="572dp"
+        tools:layout_editor_absoluteX="0dp" />
+
+
+    <TextView
+        android:id="@+id/tv_already_registered"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:text="ALREADY REGISTERED?"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline8"
+        app:layout_constraintRight_toLeftOf="@+id/guideline17"
+
+        />
+
+    <EditText
+        android:id="@+id/yob"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:background="@drawable/rounded_border_edittext"
+        android:ems="10"
+        android:hint="Birthdate"
+        android:inputType="textPersonName"
+        android:paddingLeft="20dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/Gray"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline16"
+        app:layout_constraintTop_toBottomOf="@+id/lname"
+        app:layout_constraintRight_toLeftOf="@+id/guideline8"
+        android:visibility="visible"
+        />
+
+    <com.reginald.editspinner.EditSpinner
+        android:id="@+id/edit_spinner"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Gender"
+        android:paddingLeft="20dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/Gray"
+        android:background="@drawable/rounded_border_edittext"
+        app:layout_constraintBottom_toTopOf="@+id/Email"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline8"
+        app:layout_constraintRight_toLeftOf="@+id/guideline17"
+        app:layout_constraintTop_toBottomOf="@+id/lname"
+        android:visibility="visible"
+       />
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline42"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.72"
+        tools:layout_editor_absoluteY="434dp"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <EditText
+        android:id="@+id/Email"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:paddingLeft="20dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/Gray"
+        android:background="@drawable/rounded_border_edittext"
+        android:inputType="textPersonName"
+        android:hint="E-Mail"
+        android:editable="false"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline16"
+        app:layout_constraintRight_toLeftOf="@+id/guideline17"
+        app:layout_constraintTop_toBottomOf="@+id/yob"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:visibility="visible"/>
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Username"
+        android:background="@drawable/rounded_border_edittext"
+        android:textColorHint="@color/Gray"
+        android:paddingLeft="20dp"
+        android:textColor="@color/white"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline16"
+        app:layout_constraintRight_toLeftOf="@+id/guideline17"
+        app:layout_constraintTop_toBottomOf="@+id/Email"
+        android:visibility="visible"
+        />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Password"
+        android:background="@drawable/rounded_border_edittext"
+        android:textColorHint="@color/Gray"
+        android:paddingLeft="20dp"
+        android:textColor="@color/white"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline16"
+        app:layout_constraintRight_toLeftOf="@+id/guideline17"
+        app:layout_constraintTop_toBottomOf="@+id/username"
+        android:visibility="visible"
+        />
+
+    <EditText
+        android:id="@+id/confirm_pass"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Confirm Password"
+        android:background="@drawable/rounded_border_edittext"
+        android:textColorHint="@color/Gray"
+        android:paddingLeft="20dp"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/btn_signup"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline16"
+        app:layout_constraintRight_toLeftOf="@+id/guideline17"
+        app:layout_constraintTop_toBottomOf="@+id/password"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:visibility="visible"
+        />
+
+
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline2"
+        app:layout_constraintHorizontal_bias="0.0">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="30dp"
+            android:src="@drawable/alabama_vault_logo"
+            app:layout_constraintHorizontal_bias="0.62"
+            app:layout_constraintTop_toBottomOf="@+id/llToast" />
+
+        <include
+            android:id="@+id/llToast"
+            layout="@layout/toast_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            />
+
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/tv_signup_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="SIGN UP"
+        app:layout_constraintTop_toTopOf="@+id/guideline42"
+        android:background="@color/apptheme_color"
+        app:layout_constraintBottom_toTopOf="@+id/guideline20"
+        app:layout_constraintRight_toLeftOf="@+id/guideline17"
+        android:textColor="@color/white"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline16"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.244"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/upload_phototextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="UPLOAD A PROFILE PHOTO"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        app:layout_constraintRight_toLeftOf="@+id/guideline17"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline16"
+        app:layout_constraintTop_toTopOf="@+id/guideline15"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/upload_phototextView"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline16"
+        app:layout_constraintRight_toLeftOf="@+id/guideline17"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline42"
+        app:layout_constraintHorizontal_bias="1.0"
+        android:visibility="visible"
+        app:layout_constraintVertical_bias="0.562"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp">
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp">
+
+            <ProgressBar
+                android:id="@+id/registerprogressbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminateDuration="1100"
+                android:visibility="gone" />
+
+            <com.ncsavault.alabamavault.utils.CircularImageView
+                android:id="@+id/imgUserProfile"
+                android:layout_width="200dp"
+                android:layout_height="400dp"
+                android:layout_gravity="center"
+                android:alpha="1"
+                android:src="@drawable/camera_background"
+                android:visibility="gone"
+                app:siBorderColor="@color/apptheme_color"
+                app:siBorderWidth="5dp" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_singup_withput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="SIGNUP WITHOUT UPLOADING A PHOTO"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline16"
+        app:layout_constraintRight_toLeftOf="@+id/guideline17"
+        app:layout_constraintTop_toBottomOf="@+id/tv_signup_button"
+        app:layout_constraintHorizontal_bias="0.0" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp">
+
+        <com.ncsavault.alabamavault.wheelwidget.WheelView
+            android:id="@+id/year_wheel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:visibility="gone"
+            tools:layout_editor_absoluteY="0dp"
+            tools:layout_editor_absoluteX="8dp" />
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

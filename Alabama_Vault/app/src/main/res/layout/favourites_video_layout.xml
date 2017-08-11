@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:background="@color/tab_background_color"
+    android:clipToPadding="false">
+
+    <!--<FrameLayout-->
+    <!--android:id="@+id/banner_frame_layout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
+    <ImageView
+        android:id="@+id/img_favorite_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        android:background="@color/gray"
+        android:scaleType="centerCrop"/>
+
+    <com.baoyz.widget.PullRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/img_favorite_banner">
+
+        <ListView
+            android:id="@+id/favorite_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:dividerHeight="2dp"
+            android:scrollbars="none"
+            android:listSelector="@drawable/selecter_listviewbg"
+            android:background="@color/list_background_color"
+            android:fastScrollEnabled="true" />
+    </com.baoyz.widget.PullRefreshLayout>
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:indeterminateDuration="1100"
+        android:visibility="gone"
+         />
+
+    <TextView
+        android:id="@+id/tvSearchStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="5dp"
+        android:gravity="center_horizontal"
+        android:text="No favorites have been saved"
+        android:textColor="#FFFFFF"
+        android:textSize="28dp"
+        android:visibility="gone" />
+
+    <!--</FrameLayout>-->
+
+
+    <!--<FrameLayout-->
+        <!--android:id="@+id/line_frame_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="2.5dp"-->
+        <!--android:layout_above="@+id/admob_banner_frame_layout"-->
+        <!--android:background="@color/apptheme_color"></FrameLayout>-->
+
+    <!--<FrameLayout-->
+        <!--android:id="@+id/admob_banner_frame_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:background="@color/gray">-->
+
+        <!--<com.google.android.gms.ads.AdView-->
+            <!--android:id="@+id/adView"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_marginTop="3dp"-->
+            <!--android:layout_marginBottom="3dp"-->
+            <!--ads:adSize="BANNER"-->
+            <!--ads:adUnitId="@string/banner_home_footer"></com.google.android.gms.ads.AdView>-->
+    <!--</FrameLayout>-->
+
+</RelativeLayout>

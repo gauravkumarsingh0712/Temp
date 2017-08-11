@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_ofview"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingBottom="2dp"
+    android:background="@color/gray">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="203dp"
+            android:id="@+id/image_layout"
+            >
+
+            <ImageView
+                android:id="@+id/menu_item_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/vault_4"
+                android:scaleType="centerCrop"
+                android:layout_centerHorizontal="true"
+                />
+
+        </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/image_layout"
+        android:background="#ffffff"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+        <TextView
+            android:id="@+id/menu_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Video Name"
+            android:textStyle="bold"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:textSize="18dp" />
+    </RelativeLayout>
+</RelativeLayout>

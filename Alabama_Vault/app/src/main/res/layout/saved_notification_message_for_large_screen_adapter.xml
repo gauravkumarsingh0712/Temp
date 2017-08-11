@@ -1,0 +1,101 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_ofview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/dark_grey"
+    android:descendantFocusability="blocksDescendants"
+   >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:id="@+id/rl_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:indeterminateDuration="1100"
+                android:visibility="gone" />
+            <ImageView
+                android:id="@+id/imgVideoThumbNail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/gmail"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/rl_image_view"
+            android:layout_toEndOf="@id/rl_image_view"
+            android:orientation="horizontal"
+            android:id="@+id/title_layout"
+            android:weightSum="3">
+            <TextView
+                android:id="@+id/tv_video_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="start|top"
+                android:layout_weight="2"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/black"
+                android:text="PushMessgaetTitle"
+                android:textSize="12dp"
+                 >
+            </TextView>
+
+            <TextView
+                android:id="@+id/tv_meassage_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="end|top"
+                android:maxLines="1"
+                android:paddingRight="10dp"
+                android:textColor="@color/black"
+                android:text="24/06/2017"
+                android:textSize="12dp"
+                >
+            </TextView>
+        </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tv_video_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_layout"
+        android:layout_toRightOf="@id/rl_image_view"
+        android:layout_toEndOf="@id/rl_image_view"
+        android:gravity="start"
+        android:textSize="10dp"
+        android:layout_marginBottom="3dp"
+        android:text="Video description,Video description,Video descriptionVideo description,Video description,Video description,Video description,Video description,Video description,Video descriptionVideo description,Video description,Video description,Video description"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="@color/Black" />
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

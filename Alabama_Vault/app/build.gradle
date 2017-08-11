@@ -1,0 +1,116 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+        classpath "com.google.gms:google-services:3.0.0"
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+//apply plugin: 'sonar-runner'
+
+/*sonarRunner {
+    sonarProperties {
+        property "sonar.host.url", "http://localhost:9000" // Address of Sonar server
+        property "sonar.sources", "src" // Sources
+        property "sonar.projectName", "ALABAMA Vault" // Name of your project
+        property "sonar.projectVersion", "0.2-SNAPSHOT" // Version of your project
+        property "sonar.projectDescription", "A wonderful project to analyse" // Description of your project
+    }
+}*/
+
+repositories {
+    maven { url 'https://maven.fabric.io/public'
+    }
+    maven {
+        url 'https://mvn.jwplayer.com/content/repositories/releases/'
+    }
+    maven { url "https://jitpack.io" }
+    mavenCentral()
+}
+
+android {
+/*    signingConfigs {
+        config {
+            keyAlias 'alabama'
+            keyPassword 'alabamavault'
+            storeFile file('D:/UgaProject_latest/Android-Alabama-App/keystore/keystore.jks')
+            storePassword 'alabamavault'
+        }
+    }*/
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "com.ncsavault.alabamavault"
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionCode 1
+        versionName "2.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
+    }
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+    packagingOptions {
+        exclude 'jsr305_annotations/Jsr305_annotations.gwt.xml'
+        exclude 'error_prone/Annotations.gwt.xml'
+        exclude 'third_party/java_src/error_prone/project/annotations/Annotations.gwt.xml'
+        exclude 'third_party/java_src/error_prone/project/annotations/Google_internal.gwt.xml'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:cardview-v7:25.3.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
+
+    compile 'com.google.code.gson:gson:2.2.4'
+    //    compile 'com.facebook.android:facebook-android-sdk:4.1.0'
+    compile 'com.facebook.android:facebook-android-sdk:4.+'
+    compile('com.twitter.sdk.android:twitter:2.3.2@aar') {
+        transitive = true;
+    }
+    compile files('libs/universal-image-loader-1.9.3.jar')
+    compile files('libs/AF-Android-SDK-v2.3.1.19.jar')
+    compile files('libs/FlurryAnalytics-6.1.0.jar')
+    compile project(':stickylistviewlibrary')
+    compile project(':pullRefreshLibrary')
+    compile project(':indicatorlibrary')
+    compile 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
+        transitive = true;
+    }
+    compile 'com.mcxiaoke.volley:library:1.0.19'
+    compile 'com.reginald:editspinner:1.0.0'
+    compile 'com.google.android.gms:play-services-ads:10.+'
+    compile 'com.google.firebase:firebase-auth:10.+'
+    compile 'com.google.firebase:firebase-messaging:10.+'
+    compile 'com.google.android.gms:play-services-auth:10.+'
+    compile 'com.google.firebase:firebase-core:10.+'
+    compile 'com.longtailvideo.jwplayer:jwplayer-android-sdk:+'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.github.crosswall:Android-Coverflow:release-v1.0.4'
+}
+
+apply plugin: 'com.google.gms.google-services'

@@ -1,0 +1,251 @@
+.jw-icon {
+	font-family: 'jw-icons';
+	-webkit-font-smoothing: antialiased;
+	font-style: normal;
+	font-weight: normal;
+	text-transform: none;
+	background-color: transparent;
+	font-variant: normal;
+	-webkit-font-feature-settings: "liga";
+	-moz-font-feature-settings: "liga=1";
+	-moz-font-feature-settings: "liga";
+	-ms-font-feature-settings: "liga" 1;
+	-o-font-feature-settings: "liga";
+	font-feature-settings: "liga";
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.jw-skin-AlabamaPlayer .jw-background-color {
+	background: rgba(51,51,51,0.8);
+}
+
+.jw-skin-AlabamaPlayer .jw-background-color {
+	background: #333;
+}
+
+.jw-skin-AlabamaPlayer .jw-controlbar {
+	background: rgba(19,20,21,0.8);
+}
+
+.jw-skin-AlabamaPlayer .jw-text {
+	color: #fff;
+}
+
+.jw-skin-AlabamaPlayer .jw-tooltip-title {
+	color: #fff;
+}
+
+.jw-skin-AlabamaPlayer .jw-knob {
+	color: #fff;
+}
+
+.jw-skin-AlabamaPlayer .jw-button-color {
+	color: #fff;
+}
+
+.jw-skin-AlabamaPlayer .jw-button-color:hover {
+	color: #fff;
+}
+
+.jw-skin-AlabamaPlayer .jw-toggle {
+	color: #fff;
+}
+
+.jw-skin-AlabamaPlayer .jw-toggle.jw-off {
+	color: #fff;
+}
+
+.jw-skin-AlabamaPlayer .jw-icon-hd {
+ display:none;
+ }
+
+.jw-skin-AlabamaPlayer .jw-option {
+	color: #fff;
+}
+
+.jw-skin-AlabamaPlayer .jw-option.jw-active-option {
+	color: #fff;
+}
+
+.jw-skin-AlabamaPlayer .jw-icon-display {
+	color: #fff;
+}
+
+.jw-skin-AlabamaPlayer .jw-display-icon-container {
+	border-radius: .5em;
+}
+
+.jw-skin-AlabamaPlayer .jw-display-icon-container:hover {
+	background: #4d4d4d;
+}
+
+.jw-skin-AlabamaPlayer .jw-display-icon-container:hover .jw-icon-display {
+	color: #fff;
+}
+
+.jw-skin-AlabamaPlayer .jw-rail {
+	background: #2a2c2e;
+}
+
+.jw-skin-AlabamaPlayer .jw-buffer {
+	background: #3b3d41;
+}
+
+.jw-skin-AlabamaPlayer .jw-progress {
+	background: #990000;
+}
+
+.jw-skin-AlabamaPlayer .jw-slider-horizontal {
+	background: rgba(19,20,21,0.8);
+}
+
+.jw-skin-AlabamaPlayer .jw-slider-horizontal .jw-knob {
+	margin-left: -0.325em;
+}
+
+.jw-skin-AlabamaPlayer .jw-slider-vertical .jw-knob {
+	margin-bottom: -0.325em;
+}
+
+.jw-skin-AlabamaPlayer .jw-time-tip, .jw-skin-AlabamaPlayer .jw-volume-tip, .jw-skin-AlabamaPlayer .jw-menu {
+	background: #333;
+	border: 0;
+	padding: .5em;
+}
+
+.jw-skin-AlabamaPlayer .jw-skip {
+	background: rgba(19,20,21,0.8);
+	padding: .5em;
+}
+
+.jw-skin-AlabamaPlayer .jw-skip .jw-skip-icon {
+	color: #fff;
+}
+
+.jw-skin-AlabamaPlayer .jw-skip.jw-skippable:hover .jw-skip-icon, .jw-skin-AlabamaPlayer .jw-skip.jw-skippable:hover .jw-text {
+	color: #fff;
+}
+
+.jw-skin-AlabamaPlayer .jw-time-tip .jw-text, .jw-skin-AlabamaPlayer .jw-dock-button .jw-text {
+	color: #bbb;
+}
+
+.jw-skin-AlabamaPlayer .jw-time-tip {
+	bottom: 1em;
+}
+
+.jw-skin-AlabamaPlayer .jw-dock-button {
+	background: #333;
+	border-radius: .5em;
+}
+
+.jw-skin-AlabamaPlayer .jw-dock-button:hover {
+	background: #4d4d4d;
+}
+
+.jw-skin-AlabamaPlayer .jw-playlist-container {
+	padding: 0;
+}
+
+.jw-skin-AlabamaPlayer .jw-icon-inline, .jw-skin-AlabamaPlayer .jw-icon-tooltip, .jw-skin-AlabamaPlayer .jw-text-elapsed, .jw-skin-AlabamaPlayer .jw-text-duration {
+	padding: 0 .25em;
+}
+
+.jw-skin-AlabamaPlayer .jw-time-tip, .jw-skin-AlabamaPlayer .jw-volume-tip, .jw-skin-AlabamaPlayer .jw-menu, .jw-skin-AlabamaPlayer .jw-skip {
+	border-radius: .25em;
+}
+
+.jw-skin-AlabamaPlayer .jw-volume-tip, .jw-skin-AlabamaPlayer .jw-menu {
+	bottom: .3em;
+}
+
+.jw-skin-AlabamaPlayer .jw-playlist-container {
+	left: -42%;
+	bottom: 0;
+	border-radius: 0;
+}
+
+.jw-skin-AlabamaPlayer .jw-playlist-container .jw-option {
+	border-bottom: 1px solid #000;
+	color: #fff;
+}
+
+.jw-skin-AlabamaPlayer .jw-playlist-container .jw-option:hover, .jw-skin-AlabamaPlayer .jw-playlist-container .jw-option.jw-active-option {
+	background-color: rgba(19,20,21,0.8);
+	color: #fff;
+}
+
+.jw-skin-AlabamaPlayer .jw-playlist-container ::-webkit-scrollbar-track {
+	background-color: #000;
+}
+
+.jw-skin-AlabamaPlayer .jw-playlist-container ::-webkit-scrollbar {
+	border: 10px solid #3b3d41;
+}
+
+.jw-skin-AlabamaPlayer .jw-playlist-container ::-webkit-scrollbar-thumb {
+	background-color: #fff;
+}
+
+.jw-skin-AlabamaPlayer .jw-tooltip-title {
+	border-bottom: 1px solid #000;
+	background-color: #3b3d41;
+}
+
+.jw-skin-AlabamaPlayer .jw-rail, .jw-skin-AlabamaPlayer .jw-buffer, .jw-skin-AlabamaPlayer .jw-progress {
+	border-radius: .5em;
+}
+
+.jw-skin-AlabamaPlayer .jw-knob {
+	display: none;
+}
+
+.jw-skin-AlabamaPlayer .jw-icon-audio-tracks {
+	display: none;
+}
+
+.jw-skin-AlabamaPlayer .jw-icon-tooltip{
+	display: none;
+}
+
+.jw-skin-AlabamaPlayer .jw-slider-horizontal {
+	background: transparent;
+}
+
+.jw-skin-AlabamaPlayer .jw-slider-horizontal .jw-cue {
+	top: .07500000000000001em;
+	background-color: #000;
+	width: .25em;
+	height: .25em;
+	border-radius: 1em;
+}
+
+.jw-skin-AlabamaPlayer .jw-slider-vertical {
+	bottom: 5px;
+}
+
+.jw-skin-AlabamaPlayer .jw-slider-vertical .jw-rail {
+	background-color: #141516;
+}
+
+.jw-skin-AlabamaPlayer .jw-slider-vertical .jw-rail, .jw-skin-AlabamaPlayer .jw-slider-vertical .jw-progress {
+	width: .4em;
+}
+/* Added to hide error message displayed on JWPlayer*/
+.jw-title-primary {
+    display: none;
+}
+
+
+.jw-icon-hd .jw-menu {
+    font-size: 15px;
+}
+
+.jw-controls-right {
+    margin-left: 50px;
+}
+
+/* Added to hide error message displayed on JWPlayer*/
+.jw-overlay{
+    color : clear;
+}

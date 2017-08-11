@@ -1,0 +1,78 @@
+{
+  "project_info": {
+    "project_number": "1050882923963",
+    "firebase_url": "https://alabama-vault.firebaseio.com",
+    "project_id": "alabama-vault",
+    "storage_bucket": "alabama-vault.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1050882923963:android:ebbfd118cd8fb5f0",
+        "android_client_info": {
+          "package_name": "com.ncsavault.alabamavault"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1050882923963-o3ep1m7nqkh9hlkagvn2qupvq1tb6hmt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ncsavault.alabamavault",
+            "certificate_hash": "2a0cf7c99608a13e0132288a0d5d56d15cb12654"
+          }
+        },
+        {
+          "client_id": "1050882923963-hblq3ksj37it6c8vhvb9s16q2911saja.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ncsavault.alabamavault",
+            "certificate_hash": "c25d89b38d4b466baeccd7b62677f2f5cdeb89aa"
+          }
+        },
+        {
+          "client_id": "1050882923963-d1mjml5vhs6of007a1d42pe45emjcngk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ncsavault.alabamavault",
+            "certificate_hash": "ff3a2b102a2d96d666a7c7aae9201b66c76f4659"
+          }
+        },
+        {
+          "client_id": "1050882923963-c2vku479vlh7h42f59vcpv59qncurvrp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAWMud2O843DVDka8T54W7RUD0PdbZL98"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1050882923963-6vreiukecrh3dsrboq6co6u0chgugt3p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ncsavault.alabamavault"
+              }
+            },
+            {
+              "client_id": "1050882923963-c2vku479vlh7h42f59vcpv59qncurvrp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
