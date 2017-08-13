@@ -4,6 +4,7 @@ package com.ncsavault.alabamavault.service;
 
 import com.ncsavault.alabamavault.dto.CatagoriesTabDao;
 import com.ncsavault.alabamavault.dto.MailChimpData;
+
 import com.ncsavault.alabamavault.dto.PlaylistDto;
 import com.ncsavault.alabamavault.dto.TabBannerDTO;
 import com.ncsavault.alabamavault.dto.User;
@@ -40,5 +41,6 @@ public interface VaultApiInterface {
     public String socialLoginExits(String tokenId,String email) throws BusinessException;
     public ArrayList<CatagoriesTabDao> getCategoriesData(String url) throws BusinessException;
     public ArrayList<PlaylistDto> getPlaylistData(String url) throws BusinessException;
+    public ArrayList<VideoDTO> getNewVideoData(String url) throws BusinessException;
 
 }

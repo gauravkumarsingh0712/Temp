@@ -19,12 +19,12 @@ public class VideoDetailActivity extends AppCompatActivity {
 
         mRecyclerView = (RecyclerView) findViewById(R.id.saved_video_recycler_view);
 
-        SavedVideoAdapter savedVideoAdapter = new SavedVideoAdapter(this);
-        mRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(llm);
-        mRecyclerView.setAdapter(savedVideoAdapter);
+//        SavedVideoAdapter savedVideoAdapter = new SavedVideoAdapter(this);
+//        mRecyclerView.setHasFixedSize(true);
+//        LinearLayoutManager llm = new LinearLayoutManager(this);
+//        llm.setOrientation(LinearLayoutManager.VERTICAL);
+//        mRecyclerView.setLayoutManager(llm);
+//        mRecyclerView.setAdapter(savedVideoAdapter);
     }
 
 }

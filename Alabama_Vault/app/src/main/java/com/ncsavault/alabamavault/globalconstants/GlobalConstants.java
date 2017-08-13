@@ -129,6 +129,7 @@ public class GlobalConstants {
 
     public static final String CATEGORIES_TAB_URL = BASE_URL + "/playlist/GetCategoriesData?";
     public static final String CATEGORIES_PLAYLIST_URL = BASE_URL + "/playlist/GetPlayListInfo?";
+    public static final String PLAYLIST_VIDEO_URL = BASE_URL + "/playlist/GetVideoInfo?";
 
     public static boolean IS_RETURNED_FROM_PLAYER = false;
 
@@ -272,7 +273,7 @@ public class GlobalConstants {
 
     public static final String YOUR_PASSWORD_HAS_BEEN_REGISTERED_SUCCESSFULLY = "Your password has been reset successfully";
     public static final String YOUR_EMAIL_HAS_BEEN_VERIFIED_SUCCESSFULLY = "Your email has been verified successfully";
-    public static final String NO_RECORDS_FOUND = "No records found";
+    public static final String NO_RECORDS_FOUND = "NO FAVORITE VIDEO FOUND";
 
     public static final String[] FACEBOOK_PERMISSION = {"public_profile","email","user_friends"};
     public static final String NOTIFICATION_RECEIVE = "notificationReceive";

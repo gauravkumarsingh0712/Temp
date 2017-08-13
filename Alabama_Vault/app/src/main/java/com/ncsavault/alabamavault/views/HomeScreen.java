@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
@@ -16,8 +17,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.ncsavault.alabamavault.R;
 import com.ncsavault.alabamavault.bottomnavigation.BottomNavigationBar;
@@ -77,6 +81,7 @@ public class HomeScreen extends AppCompatActivity implements  BottomNavigationBa
 
 
     public static Toolbar mToolbar;
+    Animation animation;
 
     ImageView imageViewSearch;
     EditText editTextSearch;
@@ -295,6 +300,31 @@ public class HomeScreen extends AppCompatActivity implements  BottomNavigationBa
 
         return super.onCreateOptionsMenu(menu);
 
+    }
+
+    public void showToastMessage(String message) {
+        View includedLayout = findViewById(R.id.llToast);
+
+        final TextView text = (TextView) includedLayout.findViewById(R.id.tv_toast_message);
+        text.setText(message);
+
+        animation = AnimationUtils.loadAnimation(this,
+                R.anim.abc_fade_in);
+
+        text.setAnimation(animation);
+        text.setVisibility(View.VISIBLE);
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                animation = AnimationUtils.loadAnimation(HomeScreen.this,
+                        R.anim.abc_fade_out);
+
+                text.setAnimation(animation);
+                text.setVisibility(View.GONE);
+            }
+        }, 2000);
     }
 
 

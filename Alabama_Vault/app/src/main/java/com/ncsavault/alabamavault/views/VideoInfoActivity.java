@@ -1051,35 +1051,37 @@ public class VideoInfoActivity extends PermissionActivity implements VideoPlayer
                             imgToggleButton.setBackgroundResource(R.drawable.stargold);
                         }
 
-                        mPostTask = new AsyncTask<Void, Void, Void>() {
-                            @Override
-                            protected void onPreExecute() {
-                                super.onPreExecute();
-                            }
-
-                            @Override
-                            protected Void doInBackground(Void... params) {
-                                try {
-                                    postResult = AppController.getInstance().getServiceManager().getVaultService().postFavoriteStatus(AppController.getInstance().getModelFacade().getLocalModel().
-                                            getUserId(), videoObject.getVideoId(), videoObject.getPlaylistId(), isFavoriteChecked);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                                return null;
-                            }
-
-                            @Override
-                            protected void onPostExecute(Void result) {
-                                System.out.println("Result of POST request : " + postResult);
-                                if (isFavoriteChecked)
-                                    VaultDatabaseHelper.getInstance(context.getApplicationContext()).setFavoriteFlag(1, videoObject.getVideoId());
-                                else
-                                    VaultDatabaseHelper.getInstance(context.getApplicationContext()).setFavoriteFlag(0, videoObject.getVideoId());
-                            }
-                        };
-
-//                        mPostTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                        mPostTask.execute();
+//                        mPostTask = new AsyncTask<Void, Void, Void>() {
+//                            @Override
+//                            protected void onPreExecute() {
+//                                super.onPreExecute();
+//                            }
+//
+//                            @Override
+//                            protected Void doInBackground(Void... params) {
+//                                try {
+//                                    postResult = AppController.getInstance().getServiceManager()
+//                                            .getVaultService().postFavoriteStatus(AppController.getInstance()
+//                                                    .getModelFacade().getLocalModel().
+//                                            getUserId(), videoObject.getVideoId(), videoObject.getPlaylistId(), isFavoriteChecked);
+//                                } catch (Exception e) {
+//                                    e.printStackTrace();
+//                                }
+//                                return null;
+//                            }
+//
+//                            @Override
+//                            protected void onPostExecute(Void result) {
+//                                System.out.println("Result of POST request : " + postResult);
+//                                if (isFavoriteChecked)
+//                                    VaultDatabaseHelper.getInstance(context.getApplicationContext()).setFavoriteFlag(1, videoObject.getVideoId());
+//                                else
+//                                    VaultDatabaseHelper.getInstance(context.getApplicationContext()).setFavoriteFlag(0, videoObject.getVideoId());
+//                            }
+//                        };
+//
+////                        mPostTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+//                        mPostTask.execute();
                     }
                 } else {
                     showToastMessage(GlobalConstants.MSG_NO_CONNECTION);

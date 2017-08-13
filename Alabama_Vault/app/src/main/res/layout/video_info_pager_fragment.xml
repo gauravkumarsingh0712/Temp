@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#696E71"
+    android:background="@color/white"
     android:orientation="vertical"
     android:padding="3dp">
 
@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Description"
-                android:textColor="@color/app_textcolor"
+                android:textColor="@color/black"
                 android:textSize="18sp" />
 
             <TextView
@@ -32,7 +32,7 @@
                 android:layout_marginTop="10dp"
                 android:paddingLeft="10dp"
                 android:text="Long Description Long Description Long Description Long Description Long Description"
-                android:textColor="@color/app_textcolor"
+                android:textColor="@color/black"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Related Videos"
-            android:textColor="@color/app_textcolor"
+            android:textColor="@color/black"
             android:textSize="18sp" />
 
         <FrameLayout
@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="No Related Videos"
-                android:textColor="@color/app_textcolor"
+                android:textColor="@color/black"
                 android:textSize="20sp"
                 android:visibility="invisible" />
         </FrameLayout>

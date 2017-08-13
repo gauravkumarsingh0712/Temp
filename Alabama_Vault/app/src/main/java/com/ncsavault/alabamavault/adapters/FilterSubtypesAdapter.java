@@ -129,30 +129,18 @@ public class FilterSubtypesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             return new SubtypeViewHolder(view);
 
-        } else {
+        } else if (viewType == TYPE_LOW) {
 
             view = LayoutInflater.from(parent.getContext()).inflate(
                     R.layout.home_screen_menu_item, parent, false);
 
             return new MyViewHolder(view);
         }
+
+        return null;
+
     }
 
-
-    /**
-     * The {@link RecyclerViewAdapter.MenuItemViewHolder} class.
-     * Provides a reference to each view in the menu item view.
-     */
-    public class MenuItemViewHolder extends RecyclerView.ViewHolder {
-        private TextView menuItemName;
-        private ImageView menuItemImage;
-
-        MenuItemViewHolder(View view) {
-            super(view);
-//            menuItemImage = (ImageView) view.findViewById(R.id.menu_item_image);
-//            menuItemName = (TextView) view.findViewById(R.id.menu_item_name);
-        }
-    }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
@@ -164,10 +152,11 @@ public class FilterSubtypesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 try {
                     final MyViewHolder vhHeader = (MyViewHolder) holder;
 //
-                    if (albumList.size() > 0) {
+                   // if (albumList.size() > 0) {
 
                         VideoDTO videoDTO = (VideoDTO) albumList.get(position);
-                        com.nostra13.universalimageloader.core.ImageLoader.getInstance().displayImage(videoDTO.getVideoStillUrl(),
+                        com.nostra13.universalimageloader.core.ImageLoader.getInstance().
+                                displayImage(videoDTO.getVideoStillUrl(),
                                 vhHeader.videoImage, options, new ImageLoadingListener() {
                                     @Override
                                     public void onLoadingStarted(String s, View view) {
@@ -192,33 +181,9 @@ public class FilterSubtypesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
                         vhHeader.mVideoName.setText(videoDTO.getVideoName());
 
-                    }
+                   // }
 
-//                    vhHeader.videoImage.
 
-//                    ArrayList<VideoDTO> dataList = LocalModel.getInstance().getDataList();
-//                    VideoDTO videoDTO = dataList.get(position);
-//                    vhHeader.mVideoName.setText(dataList.get(position).getVideoName());
-//                    ImageView image = vhHeader.videoImage;
-//                    final String imageUrl = dataList.get(position).getVideoStillUrl();
-//                    LocalModel.getInstance().setVideoDTO(videoDTO);
-//
-                    vhHeader.videoImage.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-
-//                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-////                                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mContext, vhHeader.videoImage, "contact_details");
-////                                intent.putExtra("contact_details", imageUrl);
-////                                ActivityCompat.startActivity(mContext,intent, options.toBundle());
-//                                PlayerProfileScreen.launch(mContext, vhHeader.videoImage, imageUrl);
-//
-//                            } else {
-//                                Intent intent = new Intent(mContext,PlayerProfileScreen.class);
-//                                mContext.startActivity(intent);
-//                            }
-                        }
-                    });
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -226,8 +191,6 @@ public class FilterSubtypesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 break;
             case TYPE_HIGH:
                 adMobBannerAdvertising(holder);
-
-
                 break;
             case HEADER_VIEW:
                 setHorizentalPager(holder);
@@ -320,7 +283,6 @@ public class FilterSubtypesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             public void onPageSelected(int position) {
                 index = position;
 
-
             }
 
             @Override
@@ -334,7 +296,6 @@ public class FilterSubtypesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 }
             }
         });
-
     }
 
 
@@ -344,7 +305,8 @@ public class FilterSubtypesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return albumList.size();
     }
 
-    protected static class MyViewHolder extends RecyclerView.ViewHolder {
+
+    protected class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView mVideoName;
         public ImageView videoImage;
         public ProgressBar progressBar;
@@ -353,7 +315,7 @@ public class FilterSubtypesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             super(view);
             mVideoName = (TextView) view.findViewById(R.id.video_name);
             videoImage = (ImageView) view.findViewById(R.id.video_image);
-            progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+            progressBar = (ProgressBar) view.findViewById(R.id.progressbar);
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                 progressBar.setIndeterminateDrawable(AppController.getInstance().getApplication().getResources().getDrawable(R.drawable.circle_progress_bar_lower));
             } else{
@@ -385,10 +347,6 @@ public class FilterSubtypesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     public void adMobBannerAdvertising(RecyclerView.ViewHolder holder) {
-
-//        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-//        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-//        layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
 
         SubtypeViewHolder vhHeader = (SubtypeViewHolder) holder;
         AdRequest request = new AdRequest.Builder()

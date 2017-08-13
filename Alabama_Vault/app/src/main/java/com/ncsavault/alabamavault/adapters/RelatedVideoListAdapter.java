@@ -136,7 +136,7 @@ public class RelatedVideoListAdapter extends BaseAdapter {
         }
 
         videoId = arrayListVideoDTOs.get(pos).getVideoId();
-        playListRefId = arrayListVideoDTOs.get(pos).getPlaylistReferenceId();
+       //gk playListRefId = arrayListVideoDTOs.get(pos).getPlaylistReferenceId();
 
         // ------for VideoStillurl-------
         videoThumbnailURL = arrayListVideoDTOs.get(pos).getVideoStillUrl();

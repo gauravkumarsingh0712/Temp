@@ -21,7 +21,9 @@ import android.widget.ProgressBar;
 import com.ncsavault.alabamavault.R;
 import com.ncsavault.alabamavault.adapters.CatagoriesAdapter;
 import com.ncsavault.alabamavault.controllers.AppController;
+import com.ncsavault.alabamavault.database.VaultDatabaseHelper;
 import com.ncsavault.alabamavault.dto.CatagoriesTabDao;
+import com.ncsavault.alabamavault.dto.TabBannerDTO;
 import com.ncsavault.alabamavault.globalconstants.GlobalConstants;
 import com.ncsavault.alabamavault.views.HomeScreen;
 
@@ -39,6 +41,9 @@ public class CatagoriesFragment extends Fragment implements CatagoriesAdapter.On
     public PlaylistFragment fragment = null;
     private ProgressBar progressBar;
     ArrayList<CatagoriesTabDao> catagoriesTabList = new ArrayList<>();
+    CatagoriesAdapter mCatagoriesAdapter;
+    PlaylistFragment playlistFragment;
+
 
     public static Fragment newInstance(Context context) {
         Fragment frag = new CatagoriesFragment();
@@ -47,6 +52,15 @@ public class CatagoriesFragment extends Fragment implements CatagoriesAdapter.On
         return frag;
     }
 
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,7 +76,20 @@ public class CatagoriesFragment extends Fragment implements CatagoriesAdapter.On
 
         initViews(view);
 
-        getCatagoriesData();
+
+        if(catagoriesTabList.size()==0) {
+            getCatagoriesData();
+        }else
+        {
+            getCategoriesDateFromDatabase();
+        }
+
+
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
     }
 
     private void initViews(View view)
@@ -83,7 +110,8 @@ public class CatagoriesFragment extends Fragment implements CatagoriesAdapter.On
         v.playlistImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PlaylistFragment playlistFragment = (PlaylistFragment) PlaylistFragment.newInstance(mContext,tabPosition);
+
+                playlistFragment =(PlaylistFragment) PlaylistFragment.newInstance(mContext, tabPosition);
                 FragmentManager manager =  ((HomeScreen)mContext).getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
                 transaction.replace(R.id.container,playlistFragment);
@@ -95,12 +123,14 @@ public class CatagoriesFragment extends Fragment implements CatagoriesAdapter.On
     }
 
     private void getCatagoriesData() {
-        final AsyncTask<Void, Void, ArrayList<CatagoriesTabDao>> mDbTask = new AsyncTask<Void, Void, ArrayList<CatagoriesTabDao>>() {
+        final AsyncTask<Void, Void, ArrayList<CatagoriesTabDao>> mDbTask =
+                new AsyncTask<Void, Void, ArrayList<CatagoriesTabDao>>() {
 
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
                 if (progressBar != null) {
+                    catagoriesTabList.clear();
                     if (catagoriesTabList.size() == 0) {
                         progressBar.setVisibility(View.VISIBLE);
                     } else {
@@ -118,6 +148,8 @@ public class CatagoriesFragment extends Fragment implements CatagoriesAdapter.On
                     catagoriesTabList.clear();
                     catagoriesTabList.addAll(AppController.getInstance().getServiceManager().getVaultService().getCategoriesData(url));
 
+                    VaultDatabaseHelper.getInstance(mContext.getApplicationContext()).removeAllCategoriesTabData();
+                    VaultDatabaseHelper.getInstance(mContext.getApplicationContext()).insertCategoriesTabData(catagoriesTabList);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -135,17 +167,44 @@ public class CatagoriesFragment extends Fragment implements CatagoriesAdapter.On
                         progressBar.setVisibility(View.GONE);
                     }
                 }
-                CatagoriesAdapter savedVideoAdapter = new CatagoriesAdapter(mContext,CatagoriesFragment.this,result);
-                mRecyclerView.setHasFixedSize(true);
-                LinearLayoutManager llm = new LinearLayoutManager(mContext);
-                llm.setOrientation(LinearLayoutManager.VERTICAL);
-                mRecyclerView.setLayoutManager(llm);
-                mRecyclerView.setAdapter(savedVideoAdapter);
+
+
+                if(mRecyclerView != null)
+                {
+                    mCatagoriesAdapter = new CatagoriesAdapter(mContext,CatagoriesFragment.this,result);
+                    mRecyclerView.setHasFixedSize(true);
+                    LinearLayoutManager llm = new LinearLayoutManager(mContext);
+                    llm.setOrientation(LinearLayoutManager.VERTICAL);
+                    mRecyclerView.setLayoutManager(llm);
+                    mRecyclerView.setAdapter(mCatagoriesAdapter);
+                }
                 // ------- addBannerImage---------------------
             }
         };
 
         mDbTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+
+    private void getCategoriesDateFromDatabase()
+    {
+        if(catagoriesTabList.size()>0) {
+            catagoriesTabList.clear();
+            catagoriesTabList.addAll(VaultDatabaseHelper.getInstance(mContext.getApplicationContext()).getAllLocalCategoriesTabData());
+
+//        if(mCatagoriesAdapter != null)
+//        {
+//            mCatagoriesAdapter.notifyDataSetChanged();
+//        }else
+//        {
+            mCatagoriesAdapter = new CatagoriesAdapter(mContext, CatagoriesFragment.this, catagoriesTabList);
+            mRecyclerView.setHasFixedSize(true);
+            LinearLayoutManager llm = new LinearLayoutManager(mContext);
+            llm.setOrientation(LinearLayoutManager.VERTICAL);
+            mRecyclerView.setLayoutManager(llm);
+            mRecyclerView.setAdapter(mCatagoriesAdapter);
+//        }
+        }
     }
 
 }

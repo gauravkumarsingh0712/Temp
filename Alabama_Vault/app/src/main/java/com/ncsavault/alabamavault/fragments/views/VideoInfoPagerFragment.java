@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.ncsavault.alabamavault.R;
 import com.ncsavault.alabamavault.adapters.RelatedVideoListAdapter;
 import com.ncsavault.alabamavault.database.VaultDatabaseHelper;
+
 import com.ncsavault.alabamavault.dto.VideoDTO;
 import com.ncsavault.alabamavault.globalconstants.GlobalConstants;
 import com.ncsavault.alabamavault.utils.Utils;
@@ -44,7 +45,7 @@ public class VideoInfoPagerFragment extends BaseFragment {
     private RelatedVideoListAdapter relatedVideoAdapter;
     private int pageNo;
     private ArrayList<VideoDTO> relatedVideoArrayList = new ArrayList<>();
-    FetchRelatedRecords relatedVideosTask;
+    //FetchRelatedRecords relatedVideosTask;
     StartRelatedVideos mStartRelatedVideoTask;
 
     @Override
@@ -61,11 +62,11 @@ public class VideoInfoPagerFragment extends BaseFragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (relatedVideosTask != null) {
-            if (relatedVideosTask.getStatus() == AsyncTask.Status.RUNNING) {
-                relatedVideosTask.cancel(true);
-            }
-        }
+//        if (relatedVideosTask != null) {
+//            if (relatedVideosTask.getStatus() == AsyncTask.Status.RUNNING) {
+//                relatedVideosTask.cancel(true);
+//            }
+ //       }
     }
 
     @Override
@@ -99,8 +100,8 @@ public class VideoInfoPagerFragment extends BaseFragment {
         } else {
             scrollView.setVisibility(View.GONE);
             llRelatedVideos.setVisibility(View.VISIBLE);
-            relatedVideosTask = new FetchRelatedRecords();
-            relatedVideosTask.execute(videoObject);
+//            relatedVideosTask = new FetchRelatedRecords();
+//            relatedVideosTask.execute(videoObject);
         }
     }
 
@@ -221,43 +222,43 @@ public class VideoInfoPagerFragment extends BaseFragment {
             if(tvRecordsStatus.isShown()) {
                 tvRecordsStatus.setVisibility(View.INVISIBLE);
             }
-            relatedVideosTask = new FetchRelatedRecords();
-            relatedVideosTask.execute(videoDTO);
+//            relatedVideosTask = new FetchRelatedRecords();
+//            relatedVideosTask.execute(videoDTO);
         }
     }
 
-    public class FetchRelatedRecords extends AsyncTask<VideoDTO, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            relatedVideoArrayList.clear();
-            if(relatedVideoAdapter != null)
-                relatedVideoAdapter.notifyDataSetChanged();
-            progressBar.setVisibility(View.VISIBLE);
-            if(tvRecordsStatus.isShown()) {
-                tvRecordsStatus.setVisibility(View.INVISIBLE);
-            }
-        }
-
-        @Override
-        protected Void doInBackground(VideoDTO... params) {
-            relatedVideoArrayList.addAll(VaultDatabaseHelper.getInstance(getActivity()).getRelatedVideosArrayListByNameAndTag(params[0].getVideoTags(), params[0].getVideoName(), params[0].getVideoId()));
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            progressBar.setVisibility(View.GONE);
-            if(relatedVideoArrayList.size() > 0) {
-                tvRecordsStatus.setVisibility(View.INVISIBLE);
-                tvRelatedTitle.setVisibility(View.VISIBLE);
-                relatedVideoAdapter = new RelatedVideoListAdapter(relatedVideoArrayList, getActivity());
-                relatedVideoListview.setAdapter(relatedVideoAdapter);
-            }else{
-                tvRelatedTitle.setVisibility(View.GONE);
-                tvRecordsStatus.setVisibility(View.VISIBLE);
-            }
-        }
-    }
+//    public class FetchRelatedRecords extends AsyncTask<NewVideoDto, Void, Void> {
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            relatedVideoArrayList.clear();
+//            if(relatedVideoAdapter != null)
+//                relatedVideoAdapter.notifyDataSetChanged();
+//            progressBar.setVisibility(View.VISIBLE);
+//            if(tvRecordsStatus.isShown()) {
+//                tvRecordsStatus.setVisibility(View.INVISIBLE);
+//            }
+//        }
+//
+//        @Override
+//        protected Void doInBackground(NewVideoDto... params) {
+//            relatedVideoArrayList.addAll(VaultDatabaseHelper.getInstance(getActivity()).getRelatedVideosArrayListByNameAndTag(params[0].getVideoTags(), params[0].getVideoName(), params[0].getVideoId()));
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            super.onPostExecute(aVoid);
+//            progressBar.setVisibility(View.GONE);
+//            if(relatedVideoArrayList.size() > 0) {
+//                tvRecordsStatus.setVisibility(View.INVISIBLE);
+//                tvRelatedTitle.setVisibility(View.VISIBLE);
+//                relatedVideoAdapter = new RelatedVideoListAdapter(relatedVideoArrayList, getActivity());
+//                relatedVideoListview.setAdapter(relatedVideoAdapter);
+//            }else{
+//                tvRelatedTitle.setVisibility(View.GONE);
+//                tvRecordsStatus.setVisibility(View.VISIBLE);
+//            }
+//        }
+//    }
 }

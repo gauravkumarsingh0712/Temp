@@ -111,7 +111,6 @@ public class CatagoriesAdapter extends RecyclerView.Adapter<CatagoriesAdapter.Ca
         viewHolder.playlistTabNametextView.setText(catagoriesTabName);
 
         mOnClickInterface.onClick(viewHolder,categoriesId);
-
     }
 
 

@@ -9,7 +9,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:id="@+id/save_video_main_layout"
+        >
 
         <RelativeLayout
             android:id="@+id/rl_image_view"
@@ -17,7 +24,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white">
             <ProgressBar
-                android:id="@+id/progress_bar"
+                android:id="@+id/progressbar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -34,65 +41,113 @@
 
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tv_video_name"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@id/rl_image_view"
-            android:layout_toEndOf="@id/rl_image_view"
-            android:ellipsize="end"
-            android:gravity="start|top"
-            android:maxLines="1"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:textColor="@color/black"
-            android:text="Video Name"
-            android:textSize="15dp"
-            android:textStyle="bold" >
-        </TextView>
+            android:id="@+id/video_name_layout"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/rl_image_view">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_video_name"
-            android:layout_toRightOf="@id/rl_image_view"
-            android:layout_toEndOf="@id/rl_image_view"
-            android:layout_alignBottom="@id/rl_image_view">
-
-            <TextView
-                android:id="@+id/tv_video_description"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:gravity="start"
-                android:textSize="10dp"
-                android:maxLines="3"
-                android:layout_marginTop="10dp"
-                android:text="Video description,Video description,Video descriptionVideo description,Video description,Video description,Video description"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textColor="@color/Black" />
+                android:weightSum="5">
 
-            <TextView
-                android:id="@+id/tv_video_duration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:gravity="start"
-                android:textSize="10dp"
-                android:maxLines="3"
-                android:layout_below="@+id/tv_video_description"
-                android:layout_marginTop="10dp"
-                android:text="10:00"
-                android:layout_alignParentRight="true"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textColor="@color/Black" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    >
 
-        </RelativeLayout>
+                    <TextView
+                        android:id="@+id/tv_video_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="start|top"
+                        android:singleLine="true"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/black"
+                        android:text="Video Name"
+                        android:textSize="15dp"
+                        android:textStyle="bold" >
+                    </TextView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/save_video_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/video_save"
+                        />
+
+                </LinearLayout>
 
 
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/video_name_layout"
+            android:layout_toRightOf="@id/rl_image_view"
+            android:layout_toEndOf="@id/rl_image_view"
+            android:layout_alignBottom="@id/rl_image_view"
+            android:orientation="vertical"
+            android:weightSum="5">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3.5">
+
+                <TextView
+                    android:id="@+id/tv_video_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:textSize="10dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Video description,Video description,Video descriptionVideo description,Video description,Video description,Video description"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/Black" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.5">
+
+                <TextView
+                    android:id="@+id/tv_video_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:textSize="10dp"
+                    android:text="10:00"
+                    android:layout_alignParentRight="true"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="20dp"
+                    android:textColor="@color/Black" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
 
     </RelativeLayout>
 

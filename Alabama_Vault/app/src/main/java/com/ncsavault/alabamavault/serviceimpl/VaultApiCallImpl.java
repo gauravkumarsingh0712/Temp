@@ -10,6 +10,7 @@ import com.ncsavault.alabamavault.dto.AssigneeDto;
 import com.ncsavault.alabamavault.dto.CatagoriesTabDao;
 import com.ncsavault.alabamavault.dto.FavoritePostData;
 import com.ncsavault.alabamavault.dto.MailChimpData;
+
 import com.ncsavault.alabamavault.dto.NotificationData;
 import com.ncsavault.alabamavault.dto.PlaylistDto;
 import com.ncsavault.alabamavault.dto.TabBannerDTO;
@@ -298,6 +299,36 @@ public class VaultApiCallImpl extends VaultService implements VaultApiInterface 
             System.out.println("Size of video list : " + playlistDtoArrayList.size());
 
             return playlistDtoArrayList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public ArrayList<VideoDTO> getNewVideoData(String url) throws BusinessException {
+        try {
+            //
+            url = url.replaceAll(" ", "%20");
+            ArrayList<VideoDTO> newVideoDtoArrayList = new ArrayList<>();
+            try {
+                String result = getData(url);
+//        System.out.println("Response of url : "+result);
+                if (result == null) {
+//            if (result.contains("timeout"))
+                    return null;
+                }
+                Type classType = new TypeToken<ArrayList<VideoDTO>>() {
+                }.getType();
+                ArrayList<VideoDTO> response = gson.fromJson(result.trim(), classType);
+                newVideoDtoArrayList = response;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("Size of video list : " + newVideoDtoArrayList.size());
+
+            return newVideoDtoArrayList;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

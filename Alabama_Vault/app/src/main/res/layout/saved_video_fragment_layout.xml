@@ -1,21 +1,45 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_content"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/LightGrey"
-    >
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/saved_video_recycler_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/LightGrey"
-        android:scrollbars="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-</android.support.constraint.ConstraintLayout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/fragment_content"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@color/LightGrey"
+    >
+
+        <com.baoyz.widget.PullRefreshLayout
+            android:id="@+id/refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/saved_video_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/LightGrey"
+            android:scrollbars="vertical"
+            />
+        </com.baoyz.widget.PullRefreshLayout>
+
+<ProgressBar
+    android:id="@+id/progressbar"
+    android:layout_width="50dp"
+    android:layout_height="50dp"
+    android:layout_centerInParent="true"
+    android:indeterminateDuration="1100"
+    android:visibility="gone"
+    />
+
+ <TextView
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:text="NO FAVIROTE VIDEO FOUND"
+     android:layout_centerInParent="true"
+     android:textColor="@color/black"
+     android:id="@+id/tv_no_recored_found"
+     android:textSize="20dp"
+     android:visibility="visible"
+     />
+
+</RelativeLayout>

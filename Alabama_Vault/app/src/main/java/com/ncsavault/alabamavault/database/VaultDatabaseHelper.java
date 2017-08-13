@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.ncsavault.alabamavault.dto.CatagoriesTabDao;
+import com.ncsavault.alabamavault.dto.PlaylistDto;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.utils.MemoryCacheUtils;
 import com.ncsavault.alabamavault.dto.TabBannerDTO;
@@ -54,6 +56,8 @@ public class VaultDatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         VideoTable.onCreate(db);
         TabBannerTable.onCreate(db);
+        CategoriesDatabaseTable.onCreate(db);
+        PlaylistDatabaseTable.onCreate(db);
     }
 
     @Override
@@ -61,6 +65,8 @@ public class VaultDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + OLD_VIDEO_TABLE);
         VideoTable.onUpgrade(db, oldVersion, newVersion);
         TabBannerTable.onUpgrade(db, oldVersion, newVersion);
+        CategoriesDatabaseTable.onUpgrade(db, oldVersion, newVersion);
+        PlaylistDatabaseTable.onUpgrade(db, oldVersion, newVersion);
     }
 
     public void closeDB() {
@@ -944,6 +950,46 @@ public class VaultDatabaseHelper extends SQLiteOpenHelper {
 
     public void removeAllTabBannerData(){
         TabBannerTable.getInstance().removeAllTabBannerData(this.getWritableDatabase());
+    }
+
+    //***********************************************************************//
+    //*********************END***********************************************//
+    //***********************************************************************//
+
+
+    //***********************************************************************//
+    //*******************CATEGORIES METHODS**********************************//
+    //***********************************************************************//
+    public void insertCategoriesTabData(ArrayList<CatagoriesTabDao> catagoriesTabDaoArrayList){
+        CategoriesDatabaseTable.getInstance().insertCategoriesTabData(catagoriesTabDaoArrayList, this.getWritableDatabase());
+    }
+
+    public ArrayList<CatagoriesTabDao> getAllLocalCategoriesTabData(){
+        return CategoriesDatabaseTable.getInstance().getAllLocalCategoriesData(this.getReadableDatabase());
+    }
+
+    public void removeAllCategoriesTabData(){
+        CategoriesDatabaseTable.getInstance().removeAllCategoriesTabData(this.getWritableDatabase());
+    }
+
+    //***********************************************************************//
+    //*********************END***********************************************//
+    //***********************************************************************//
+
+
+    //***********************************************************************//
+    //*******************PLAYLIST METHODS**********************************//
+    //***********************************************************************//
+    public void insertPlaylistTabData(ArrayList<PlaylistDto> playlistDtoArrayList){
+        PlaylistDatabaseTable.getInstance().insertPlaylistTabData(playlistDtoArrayList, this.getWritableDatabase());
+    }
+
+    public ArrayList<PlaylistDto> getAllLocalPlaylistTabData(){
+        return PlaylistDatabaseTable.getInstance().getAllLocalPlaylistData(this.getReadableDatabase());
+    }
+
+    public void removeAllPlaylistTabData(){
+        PlaylistDatabaseTable.getInstance().removeAllPlaylistTabData(this.getWritableDatabase());
     }
 
     //***********************************************************************//

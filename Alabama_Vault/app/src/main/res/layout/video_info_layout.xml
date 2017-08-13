@@ -9,14 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@color/video_header_color">
+        android:background="@color/apptheme_color">
 
         <RelativeLayout
             android:id="@+id/rl_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:background="@color/video_header_color"
+            android:background="@color/apptheme_color"
             android:padding="10dp"
             android:visibility="invisible">
 
@@ -51,7 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/ll_header"
-        android:background="@color/app_dark_grey"
+        android:background="@color/white"
         android:orientation="vertical"
         android:visibility="visible">
 
@@ -65,14 +65,8 @@
             android:id="@+id/rl_video_layout"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:layout_below="@+id/view_line"
-            android:background="@color/black">
+            android:background="@color/white">
 
-            <!--<org.vault.app.customviews.CustomVideoView-->
-            <!--android:id="@+id/video_view"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_gravity="center"/>-->
 
             <com.longtailvideo.jwplayer.JWPlayerView
                 android:id="@+id/jwplayer"
@@ -137,7 +131,7 @@
                     android:singleLine="true"
                     android:layout_toLeftOf="@+id/imgToggleButton"
                     android:text="Video Name"
-                    android:textColor="@color/app_textcolor"
+                    android:textColor="@color/black"
                     android:textSize="20sp" />
 
                 <ImageView
@@ -147,7 +141,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:background="@drawable/stargreyicon"
+                    android:background="@drawable/video_save"
                     android:adjustViewBounds="true"
                     android:scaleType="centerCrop"
                     android:visibility="visible" />
@@ -160,7 +154,7 @@
                 android:layout_below="@+id/rl_video_name"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="#696E71" />
+                android:background="@color/white" />
 
 
         </RelativeLayout>
@@ -170,7 +164,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/adView"
-            android:background="@color/app_dark_grey"
+            android:background="@color/white"
             android:padding="5dp" />
 
         <!--<RelativeLayout-->
