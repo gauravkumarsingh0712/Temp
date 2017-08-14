@@ -1,6 +1,7 @@
 package com.ncsavault.alabamavault.fragments.views;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.ncsavault.alabamavault.R;
@@ -23,6 +25,9 @@ import com.ncsavault.alabamavault.database.VaultDatabaseHelper;
 import com.ncsavault.alabamavault.dto.VideoDTO;
 import com.ncsavault.alabamavault.globalconstants.GlobalConstants;
 import com.ncsavault.alabamavault.utils.Utils;
+import com.ncsavault.alabamavault.views.HomeScreen;
+import com.ncsavault.alabamavault.views.VideoInfoActivity;
+
 import java.util.ArrayList;
 
 /**
@@ -42,6 +47,7 @@ public class VideoDetailFragment extends Fragment implements VideoDetailAdapter.
     private PullRefreshLayout refreshLayout;
     PullRefreshTask pullTask;
     long playlistId = 0;
+    private TextView tvNoRecoredFound;
 
     public static Fragment newInstance(Context context,long playlistId) {
         Fragment videoDetailFragment = new VideoDetailFragment();
@@ -92,7 +98,7 @@ public class VideoDetailFragment extends Fragment implements VideoDetailAdapter.
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.saved_video_recycler_view);
-
+        tvNoRecoredFound = (TextView) view.findViewById(R.id.tv_no_recored_found);
         progressBar = (ProgressBar) view.findViewById(R.id.progressbar);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             progressBar.setIndeterminateDrawable(mContext.getResources().getDrawable(R.drawable.circle_progress_bar_lower));
@@ -156,6 +162,16 @@ public class VideoDetailFragment extends Fragment implements VideoDetailAdapter.
                     }
                 }
 
+                if(result.size() == 0)
+                {
+                    tvNoRecoredFound.setVisibility(View.VISIBLE);
+                    tvNoRecoredFound.setText(GlobalConstants.NO_RECORDS_FOUND);
+                }else
+                {
+                    tvNoRecoredFound.setVisibility(View.GONE);
+                }
+
+
                 videoDetailAdapter = new VideoDetailAdapter(mContext,result,VideoDetailFragment.this);
                 mRecyclerView.setHasFixedSize(true);
                 LinearLayoutManager llm = new LinearLayoutManager(mContext);
@@ -177,27 +193,27 @@ public class VideoDetailFragment extends Fragment implements VideoDetailAdapter.
             public void onClick(View v) {
 
                 System.out.println("position : " + pos);
-//                if (Utils.isInternetAvailable(mContext)) {
-//                    if (videoDtoArrayList.get(pos).getVideoLongUrl() != null) {
-//                        if (videoDtoArrayList.get(pos).getVideoLongUrl().length() > 0
-//                                && !videoDtoArrayList.get(pos).getVideoLongUrl().toLowerCase().equals("none")) {
-//                            String videoCategory = GlobalConstants.FEATURED;
-//                            Intent intent = new Intent(mContext, VideoInfoActivity.class);
-//                            intent.putExtra(GlobalConstants.KEY_CATEGORY, videoCategory);
-//                            intent.putExtra(GlobalConstants.VIDEO_OBJ, videoDtoArrayList.get(pos));
-//                            GlobalConstants.LIST_FRAGMENT = new VideoDetailFragment();
-//                            GlobalConstants.LIST_ITEM_POSITION = pos;
-//                            startActivity(intent);
-//                            ((HomeScreen)mContext).overridePendingTransition(R.anim.slide_up_video_info, R.anim.nochange);
-//                        } else {
-//                            //((HomeScreen) mContext).showToastMessage(GlobalConstants.MSG_NO_INFO_AVAILABLE);
-//                        }
-//                    } else {
-//                        //((MainActivity) mActivity).showToastMessage(GlobalConstants.MSG_NO_INFO_AVAILABLE);
-//                    }
-//                } else {
-//                    //((MainActivity) mActivity).showToastMessage(GlobalConstants.MSG_NO_CONNECTION);
-//                }
+                if (Utils.isInternetAvailable(mContext)) {
+                    if (videoDtoArrayList.get(pos).getVideoLongUrl() != null) {
+                        if (videoDtoArrayList.get(pos).getVideoLongUrl().length() > 0
+                                && !videoDtoArrayList.get(pos).getVideoLongUrl().toLowerCase().equals("none")) {
+                            String videoCategory = GlobalConstants.FEATURED;
+                            Intent intent = new Intent(mContext, VideoInfoActivity.class);
+                            intent.putExtra(GlobalConstants.KEY_CATEGORY, videoCategory);
+                            intent.putExtra(GlobalConstants.VIDEO_OBJ, videoDtoArrayList.get(pos));
+                            GlobalConstants.LIST_FRAGMENT = new VideoDetailFragment();
+                            GlobalConstants.LIST_ITEM_POSITION = pos;
+                            startActivity(intent);
+                            ((HomeScreen)mContext).overridePendingTransition(R.anim.slide_up_video_info, R.anim.nochange);
+                        } else {
+                            ((HomeScreen) mContext).showToastMessage(GlobalConstants.MSG_NO_INFO_AVAILABLE);
+                        }
+                    } else {
+                        ((HomeScreen) mContext).showToastMessage(GlobalConstants.MSG_NO_INFO_AVAILABLE);
+                    }
+                } else {
+                   ((HomeScreen) mContext).showToastMessage(GlobalConstants.MSG_NO_CONNECTION);
+                }
             }
         });
 
@@ -216,7 +232,7 @@ public class VideoDetailFragment extends Fragment implements VideoDetailAdapter.
                         markFavoriteStatus(videoViewHolder,pos);
                     } else {
                        //gk ((MainActivity) context).showToastMessage(GlobalConstants.MSG_NO_INFO_AVAILABLE);
-                        videoViewHolder.savedVideoImageView.setBackgroundResource(R.drawable.video_save);
+                        videoViewHolder.savedVideoImageView.setImageResource(R.drawable.video_save);
                     }
                 }
 
@@ -238,14 +254,13 @@ public class VideoDetailFragment extends Fragment implements VideoDetailAdapter.
                     VaultDatabaseHelper.getInstance(mContext.getApplicationContext()).setFavoriteFlag
                             (0, videoDtoArrayList.get(pos).getVideoId());
                     videoDtoArrayList.get(pos).setVideoIsFavorite(false);
-                    viewHolder.savedVideoImageView.setBackgroundResource(R.drawable.video_save);
+                    viewHolder.savedVideoImageView.setImageResource(R.drawable.video_save);
                 } else {
                     isFavoriteChecked = true;
                     VaultDatabaseHelper.getInstance(mContext.getApplicationContext()).setFavoriteFlag
                             (1, videoDtoArrayList.get(pos).getVideoId());
                     videoDtoArrayList.get(pos).setVideoIsFavorite(true);
-                    viewHolder.savedVideoImageView.setBackgroundResource(R.drawable.saved_video_img);
-
+                    viewHolder.savedVideoImageView.setImageResource(R.drawable.saved_video_img);
                 }
 
                 mPostTask = new AsyncTask<Void, Void, Void>() {
@@ -331,6 +346,15 @@ public class VideoDetailFragment extends Fragment implements VideoDetailAdapter.
         protected void onPostExecute(final ArrayList<VideoDTO> result) {
             super.onPostExecute(result);
             try {
+
+                if(result.size() == 0)
+                {
+                    tvNoRecoredFound.setVisibility(View.VISIBLE);
+                    tvNoRecoredFound.setText(GlobalConstants.NO_RECORDS_FOUND);
+                }else
+                {
+                    tvNoRecoredFound.setVisibility(View.GONE);
+                }
                 videoDetailAdapter = new VideoDetailAdapter(mContext,result,VideoDetailFragment.this);
                 mRecyclerView.setHasFixedSize(true);
                 LinearLayoutManager llm = new LinearLayoutManager(mContext);

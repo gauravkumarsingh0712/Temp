@@ -46,14 +46,16 @@
         <ImageView
             android:id="@+id/imageview_logo"
             android:layout_width="100dp"
-            android:layout_height="20dp"
+            android:layout_height="30dp"
             android:layout_margin="10dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:src="@drawable/alabama_vault_logo"
+            android:visibility="gone"
             />
 
-        <!--<LinearLayout
+        <LinearLayout
+            android:id="@+id/textViewA"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -64,7 +66,8 @@
                 android:id="@+id/toolbar_title_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ALABAMA "
+                android:text="ALABAMA"
+                android:textSize="20sp"
                 android:textColor="@color/white" />
 
             <TextView
@@ -72,10 +75,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="VAULT"
+                android:textSize="20sp"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
 
-        </LinearLayout>-->
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/imageview_search"

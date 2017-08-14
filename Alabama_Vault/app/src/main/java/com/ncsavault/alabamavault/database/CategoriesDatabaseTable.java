@@ -6,14 +6,12 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.ncsavault.alabamavault.dto.CatagoriesTabDao;
-import com.ncsavault.alabamavault.dto.PlaylistDto;
-import com.ncsavault.alabamavault.dto.TabBannerDTO;
-import com.ncsavault.alabamavault.dto.VideoDTO;
+
 
 import java.util.ArrayList;
 
 /**
- * Created by siddharthyadav on 12/08/17.
+ * Created by gauravkumar.singh on 14/08/17.
  */
 
 public class CategoriesDatabaseTable {

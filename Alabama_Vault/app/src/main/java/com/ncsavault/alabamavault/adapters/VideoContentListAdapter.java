@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.ncsavault.alabamavault.service.TrendingFeaturedVideoService;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -342,7 +343,7 @@ public class VideoContentListAdapter extends BaseAdapter {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
 
-                        context.stopService(new Intent(context, VideoDataService.class));
+                        context.stopService(new Intent(context, TrendingFeaturedVideoService.class));
 
                         VaultDatabaseHelper.getInstance(context.getApplicationContext()).removeAllRecords();
 

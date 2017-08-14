@@ -58,6 +58,7 @@ import com.ncsavault.alabamavault.dto.VideoDTO;
 import com.ncsavault.alabamavault.fragments.views.VideoInfoPagerFragment;
 import com.ncsavault.alabamavault.globalconstants.GlobalConstants;
 import com.ncsavault.alabamavault.jwplayer.KeepScreenOnHandler;
+import com.ncsavault.alabamavault.service.TrendingFeaturedVideoService;
 import com.ncsavault.alabamavault.service.VideoDataService;
 import com.ncsavault.alabamavault.utils.Utils;
 import com.facebook.AccessToken;
@@ -561,11 +562,10 @@ public class VideoInfoActivity extends PermissionActivity implements VideoPlayer
 
             // rlActionStrip.setVisibility(View.GONE);
 
-            if (ll_header != null && rlVideoNameStrip != null && circleIndicator != null) {
+            if (ll_header != null && rlVideoNameStrip != null ) {
                 ll_header.setVisibility(View.GONE);
                 rlVideoNameStrip.setVisibility(View.GONE);
-                circleIndicator.setVisibility(View.GONE);
-            }
+           }
             if (mAdView != null) {
                 mAdView.setVisibility(View.GONE);
             }
@@ -603,7 +603,6 @@ public class VideoInfoActivity extends PermissionActivity implements VideoPlayer
             // rlActionStrip.setVisibility(View.VISIBLE);
             ll_header.setVisibility(View.VISIBLE);
             rlVideoNameStrip.setVisibility(View.VISIBLE);
-            circleIndicator.setVisibility(View.VISIBLE);
             if (mAdView != null) {
                 mAdView.setVisibility(View.VISIBLE);
             }
@@ -645,7 +644,6 @@ public class VideoInfoActivity extends PermissionActivity implements VideoPlayer
             rlVideoNameStrip.setVisibility(View.GONE);
 
         }
-        circleIndicator.setVisibility(View.GONE);
         if (linearLayout != null && linearLayout.getVisibility() == View.VISIBLE) {
             linearLayout.setVisibility(View.GONE);
         }
@@ -700,12 +698,12 @@ public class VideoInfoActivity extends PermissionActivity implements VideoPlayer
         videoView = (JWPlayerView) findViewById(R.id.jwplayer);
         tvVideoName = (TextView) findViewById(R.id.tv_video_name);
         imgToggleButton = (ImageView) findViewById(R.id.imgToggleButton);
-        viewPager = (ViewPager) findViewById(R.id.pager);
-        viewPagerRelativeView = (RelativeLayout) findViewById(R.id.relative_view_pager);
-        circleIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
-        circleIndicator.setPageColor(getResources().getColor(R.color.app_dark_grey));
-        circleIndicator.setStrokeColor(Color.parseColor("#999999"));
-        circleIndicator.setFillColor(Color.parseColor("#999999"));
+//        viewPager = (ViewPager) findViewById(R.id.pager);
+//        viewPagerRelativeView = (RelativeLayout) findViewById(R.id.relative_view_pager);
+//        circleIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
+//        circleIndicator.setPageColor(getResources().getColor(R.color.app_dark_grey));
+//        circleIndicator.setStrokeColor(Color.parseColor("#999999"));
+//        circleIndicator.setFillColor(Color.parseColor("#999999"));
         llVideoLoader = (LinearLayout) findViewById(R.id.ll_video_loader);
         bufferLinearLayout = (LinearLayout) findViewById(R.id.buffer_layout);
         bufferLinearLayout.setVisibility(View.GONE);
@@ -732,9 +730,9 @@ public class VideoInfoActivity extends PermissionActivity implements VideoPlayer
 
         if (videoObject != null) {
             if (VaultDatabaseHelper.getInstance(VideoInfoActivity.this).isFavorite(videoObject.getVideoId()))
-                imgToggleButton.setBackgroundResource(R.drawable.stargold);
+                imgToggleButton.setBackgroundResource(R.drawable.saved_video_img);
             else
-                imgToggleButton.setBackgroundResource(R.drawable.stargreyicon);
+                imgToggleButton.setBackgroundResource(R.drawable.video_save);
             if (imgVideoStillUrl != null)
                 Utils.addImageByCaching(imgVideoStillUrl, videoObject.getVideoStillUrl());
             tvVideoName.setText(videoObject.getVideoName().toString());
@@ -797,25 +795,6 @@ public class VideoInfoActivity extends PermissionActivity implements VideoPlayer
             finish();
         }
 
-        fragments = new Vector<Fragment>();
-        Bundle bundleRelated1 = new Bundle();
-        bundleRelated1.putInt("pageNumber", 1);
-        bundleRelated1.putSerializable(GlobalConstants.VIDEO_OBJ, videoObject);
-        fragments.add(Fragment.instantiate(this, VideoInfoPagerFragment.class.getName(), bundleRelated1));
-        Bundle bundleRelated2 = new Bundle();
-        bundleRelated2.putInt("pageNumber", 2);
-        bundleRelated2.putSerializable(GlobalConstants.VIDEO_OBJ, videoObject);
-        fragments.add(Fragment.instantiate(this, VideoInfoPagerFragment.class.getName(), bundleRelated2));
-
-        this.mPagerAdapter = new PagerAdapter(super.getSupportFragmentManager(), fragments);
-        this.viewPager.setAdapter(this.mPagerAdapter);
-        circleIndicator.setViewPager(viewPager);
-
-        /*ViewPagerAdapter _adapter = new ViewPagerAdapter(super.getSupportFragmentManager());
-        viewPager.setAdapter(_adapter);
-        viewPager.setCurrentItem(0);
-
-        circleIndicator.setViewPager(viewPager);*/
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -836,8 +815,6 @@ public class VideoInfoActivity extends PermissionActivity implements VideoPlayer
         }, 2000);
 
     }
-
-
 
 
     void initListener() {
@@ -1036,19 +1013,19 @@ public class VideoInfoActivity extends PermissionActivity implements VideoPlayer
                 }
                 if (Utils.isInternetAvailable(context)) {
                     if (AppController.getInstance().getModelFacade().getLocalModel().getUserId() == GlobalConstants.DEFAULT_USER_ID) {
-                        imgToggleButton.setBackgroundResource(R.drawable.stargreyicon);
+                        imgToggleButton.setBackgroundResource(R.drawable.video_save);
                         showConfirmLoginDialog(GlobalConstants.LOGIN_MESSAGE);
                     } else {
                         if (VaultDatabaseHelper.getInstance(VideoInfoActivity.this).isFavorite(videoObject.getVideoId())) {
                             isFavoriteChecked = false;
                             VaultDatabaseHelper.getInstance(context.getApplicationContext()).setFavoriteFlag(0, videoObject.getVideoId());
                             videoObject.setVideoIsFavorite(false);
-                            imgToggleButton.setBackgroundResource(R.drawable.stargreyicon);
+                            imgToggleButton.setBackgroundResource(R.drawable.video_save);
                         } else {
                             isFavoriteChecked = true;
                             VaultDatabaseHelper.getInstance(context.getApplicationContext()).setFavoriteFlag(1, videoObject.getVideoId());
                             videoObject.setVideoIsFavorite(true);
-                            imgToggleButton.setBackgroundResource(R.drawable.stargold);
+                            imgToggleButton.setBackgroundResource(R.drawable.saved_video_img);
                         }
 
 //                        mPostTask = new AsyncTask<Void, Void, Void>() {
@@ -1085,24 +1062,24 @@ public class VideoInfoActivity extends PermissionActivity implements VideoPlayer
                     }
                 } else {
                     showToastMessage(GlobalConstants.MSG_NO_CONNECTION);
-                    imgToggleButton.setBackgroundResource(R.drawable.stargreyicon);
+                    imgToggleButton.setBackgroundResource(R.drawable.video_save);
                 }
             }
         });
 
-        viewPagerRelativeView.setOnClickListener(new View.OnClickListener()
-
-                                                 {
-                                                     @Override
-                                                     public void onClick(View v) {
-                                                         if (linearLayout != null && linearLayout.getVisibility() == View.VISIBLE) {
-                                                             linearLayout.setVisibility(View.GONE);
-                                                             // exitReveal1(linearLayout);
-                                                         }
-                                                     }
-                                                 }
-
-        );
+//        viewPagerRelativeView.setOnClickListener(new View.OnClickListener()
+//
+//                                                 {
+//                                                     @Override
+//                                                     public void onClick(View v) {
+//                                                         if (linearLayout != null && linearLayout.getVisibility() == View.VISIBLE) {
+//                                                             linearLayout.setVisibility(View.GONE);
+//                                                             // exitReveal1(linearLayout);
+//                                                         }
+//                                                     }
+//                                                 }
+//
+//        );
     }
 
 
@@ -1592,14 +1569,13 @@ public class VideoInfoActivity extends PermissionActivity implements VideoPlayer
         }
         if (videoObject != null) {
             if (VaultDatabaseHelper.getInstance(VideoInfoActivity.this).isFavorite(videoObject.getVideoId()))
-                imgToggleButton.setBackgroundResource(R.drawable.stargold);
+                imgToggleButton.setBackgroundResource(R.drawable.saved_video_img);
             else
-                imgToggleButton.setBackgroundResource(R.drawable.stargreyicon);
+                imgToggleButton.setBackgroundResource(R.drawable.video_save);
             Utils.addImageByCaching(imgVideoStillUrl, videoObject.getVideoStillUrl());
             //gk imgVideoStillUrl.setVisibility(View.VISIBLE);
             tvVideoName.setText(videoObject.getVideoName().toString());
         }
-
         // -------- starting the flurry event of video------
         articleParams = new HashMap<String, String>();
         articleParams.put(GlobalConstants.KEY_VIDEONAME, videoObject.getVideoName());
@@ -1625,7 +1601,7 @@ public class VideoInfoActivity extends PermissionActivity implements VideoPlayer
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
                         try {
-                            stopService(new Intent(VideoInfoActivity.this, VideoDataService.class));
+                            stopService(new Intent(VideoInfoActivity.this, TrendingFeaturedVideoService.class));
 
                             VaultDatabaseHelper.getInstance(getApplicationContext()).removeAllRecords();
 

@@ -14,7 +14,7 @@ public class GlobalConstants {
 
     public static final int APP_ID = 4;
     public static final String APP_NAME = "alabamavault";
-    public static final String APP_VERSION = "1.9";
+    public static final String APP_VERSION = "2.0.1";
     public static final String DEVICE_TYPE = "Android";
     public static final String APP_FULL_NAME = "Alabama Vault";
     public static final String APP_SCHOOL_NAME = "Alabama";
@@ -110,7 +110,7 @@ public class GlobalConstants {
     public static final String SOCIAL_SHARING_INFO = BASE_URL + "/FavoriteTab/PostSocialSharingInfo";
     public static final String GET_VIDEO_DATA = BASE_URL + "/Playlist/GetVideo";
 
-    public static final String GET_TRENDING_PLAYLIST_URL = BASE_URL + "/playlist/GetTrendingPlayListInfo";
+    public static final String GET_TRENDING_PLAYLIST_URL = BASE_URL + "/playlist/GetTrendingPlayListInfo?";
 
     //User specific API calls
     public static final String VALIDATE_EMAIL_URL = BASE_URL + "/MobileUsers/validateEmail?emailID=";

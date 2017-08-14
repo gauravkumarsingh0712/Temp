@@ -57,6 +57,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import com.ncsavault.alabamavault.service.TrendingFeaturedVideoService;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -74,11 +75,7 @@ import com.ncsavault.alabamavault.mailchimp.org.xmlrpc.android.XMLRPCException;
 import com.ncsavault.alabamavault.mailchimp.rsg.mailchimp.api.MailChimpApiException;
 import com.ncsavault.alabamavault.mailchimp.rsg.mailchimp.api.lists.ListMethods;
 import com.ncsavault.alabamavault.mailchimp.rsg.mailchimp.api.lists.MergeFieldListUtil;
-import com.ncsavault.alabamavault.network.GETJsonRequest;
-import com.ncsavault.alabamavault.service.VideoDataService;
-import com.ncsavault.alabamavault.views.ContactActivity;
 import com.ncsavault.alabamavault.views.MainActivity;
-import com.ncsavault.alabamavault.views.SplashActivity;
 
 import org.json.JSONArray;
 
@@ -1050,8 +1047,8 @@ public class Utils {
                                         context.startActivity(intent);
                                         context.overridePendingTransition(R.anim.slideup, R.anim.nochange);
                                         context.finish();
-                                        if (!VideoDataService.isServiceRunning)
-                                            context.startService(new Intent(context, VideoDataService.class));
+                                       // if (!VideoDataService.isServiceRunning)
+                                            context.startService(new Intent(context, TrendingFeaturedVideoService.class));
                                         progressDialog.dismiss();
                                         mMailChimpTask = null;
                                     }
@@ -1075,8 +1072,8 @@ public class Utils {
                         context.startActivity(intent);
                         context.overridePendingTransition(R.anim.slideup, R.anim.nochange);
                         context.finish();
-                        if (!VideoDataService.isServiceRunning)
-                            context.startService(new Intent(context, VideoDataService.class));
+                        //if (!VideoDataService.isServiceRunning)
+                            context.startService(new Intent(context, TrendingFeaturedVideoService.class));
                     }
                 });
 

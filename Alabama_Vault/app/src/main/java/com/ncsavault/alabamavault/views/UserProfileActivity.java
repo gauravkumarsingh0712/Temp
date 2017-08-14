@@ -51,7 +51,7 @@ import com.ncsavault.alabamavault.dto.User;
 import com.ncsavault.alabamavault.globalconstants.GlobalConstants;
 import com.ncsavault.alabamavault.models.BaseModel;
 import com.ncsavault.alabamavault.models.UserProfileModel;
-import com.ncsavault.alabamavault.service.VideoDataService;
+import com.ncsavault.alabamavault.service.TrendingFeaturedVideoService;
 import com.ncsavault.alabamavault.utils.Utils;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -91,7 +91,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Created by aqeeb.pathan on 17-04-2015.
+ * Created by gauravkumar.singh on 17-04-2017.
  */
 public class UserProfileActivity extends PermissionActivity implements TextWatcher, AbstractView {
 
@@ -136,7 +136,6 @@ public class UserProfileActivity extends PermissionActivity implements TextWatch
     private boolean goToSettingsScreen = false;
 
     private UserProfileModel mUserProfileModel;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -491,7 +490,7 @@ public class UserProfileActivity extends PermissionActivity implements TextWatch
             public void onClick(View v) {
                 Twitter.logOut();
 
-                stopService(new Intent(UserProfileActivity.this, VideoDataService.class));
+                stopService(new Intent(UserProfileActivity.this, TrendingFeaturedVideoService.class));
 //                VideoDataFetchingService.isServiceRunning = false;
                 if (LoginManager.getInstance() != null) {
                     LoginManager.getInstance().logOut();

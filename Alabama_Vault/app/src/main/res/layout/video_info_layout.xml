@@ -147,44 +147,58 @@
                     android:visibility="visible" />
             </RelativeLayout>
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/pager"
+
+            <LinearLayout
+                android:id="@+id/rl_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/rl_video_name"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@color/white" />
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:weightSum="10">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="8">
+
+                    <TextView
+                        android:id="@+id/tv_video_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="Will fit the image for the entire background. That means it will stretch the image to fill that background entirely even if the image size is too small."
+                        android:layout_alignParentTop="true"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:background="@color/dark_grey">
+
+                <com.google.android.gms.ads.AdView
+                    android:id="@+id/adView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="3dp"
+                    ads:adSize="BANNER"
+                    ads:adUnitId="@string/ad_units_video_view"></com.google.android.gms.ads.AdView>
+
+            </LinearLayout>
+
+            </LinearLayout>
 
 
         </RelativeLayout>
 
-        <com.viewpagerindicator.CirclePageIndicator
-            android:id="@+id/indicator"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/adView"
-            android:background="@color/white"
-            android:padding="5dp" />
 
-        <!--<RelativeLayout-->
-            <!--android:id="@+id/admob_banner_frame_layout"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!---->
-
-            <!--android:background="@color/gray">-->
-
-            <com.google.android.gms.ads.AdView
-                android:id="@+id/adView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="4dp"
-                android:layout_marginTop="3dp"
-                ads:adSize="BANNER"
-                ads:adUnitId="@string/ad_units_video_view"></com.google.android.gms.ads.AdView>
         <!--</RelativeLayout>-->
     </RelativeLayout>
 

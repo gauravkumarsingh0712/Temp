@@ -51,6 +51,7 @@ public class AndroidApplication extends Application {
         FontsOverride.setDefaultFont(this, "MONOSPACE", "fonts/Roboto-Regular.ttf");
         FontsOverride.setDefaultFont(this, "SERIF", "fonts/Roboto-Regular.ttf");
         FontsOverride.setDefaultFont(this, "SANS_SERIF", "fonts/Roboto-Regular.ttf");
+        FontsOverride.overrideFont(this, "SERIF", "fonts/OpenSans-Regular.ttf");
     }
 
     @Override

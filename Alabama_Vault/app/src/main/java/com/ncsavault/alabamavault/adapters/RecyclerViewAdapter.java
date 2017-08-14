@@ -171,44 +171,44 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private void setHorizentalPager(RecyclerView.ViewHolder holder)
     {
-        VHHeader vhHeader = (VHHeader)holder;
-        vhHeader.pager.setClipChildren(false);
-        //vhHeader.pager.setPageMargin(mContext.getResources().getDimensionPixelOffset(R.dimen.pager_margin));
-        vhHeader.pager.setOffscreenPageLimit(3);
-        vhHeader.pager.setPageTransformer(false, new CarouselEffectTransformer(mContext,displayWidth));
+//        VHHeader vhHeader = (VHHeader)holder;
+//        vhHeader.pager.setClipChildren(false);
+//        //vhHeader.pager.setPageMargin(mContext.getResources().getDimensionPixelOffset(R.dimen.pager_margin));
+//        vhHeader.pager.setOffscreenPageLimit(3);
+//        vhHeader.pager.setPageTransformer(false, new CarouselEffectTransformer(mContext,displayWidth));
+//
+//        HorizontalPagerAdapter adapter = new HorizontalPagerAdapter(mContext, Arra);
+//        vhHeader.pager.setAdapter(adapter);
+//
+//        vhHeader.pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//
+//            private int index = 0;
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//                index = position;
+//
+//            }
+//
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int state) {
+//                if (state == ViewPager.SCROLL_STATE_IDLE) {
+//                }
+//            }
+//        });
 
-        HorizontalPagerAdapter adapter = new HorizontalPagerAdapter(mContext);
-        vhHeader.pager.setAdapter(adapter);
 
-        vhHeader.pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            private int index = 0;
-
-            @Override
-            public void onPageSelected(int position) {
-                index = position;
-
-            }
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                if (state == ViewPager.SCROLL_STATE_IDLE) {
-                }
-            }
-        });
-
-
-        vhHeader.topTenText.setOnClickListener(new View.OnClickListener() {
+       /* vhHeader.topTenText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                Intent intent = new Intent(mContext,TopTenVideoScreen.class);
 //                mContext.startActivity(intent);
             }
-        });
+        });*/
 
     }
 

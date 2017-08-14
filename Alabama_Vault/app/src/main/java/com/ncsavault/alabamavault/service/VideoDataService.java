@@ -13,6 +13,7 @@ import com.ncsavault.alabamavault.fragments.views.FeaturedFragment;
 import com.ncsavault.alabamavault.fragments.views.GamesFragment;
 import com.ncsavault.alabamavault.fragments.views.OpponentsFragment;
 import com.ncsavault.alabamavault.fragments.views.PlayerFragment;
+import com.ncsavault.alabamavault.globalconstants.GlobalConstants;
 import com.ncsavault.alabamavault.utils.Utils;
 
 import java.util.ArrayList;
@@ -45,6 +46,8 @@ public class VideoDataService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         isServiceRunning = true;
+
+
         try {
 
             System.out.println("tabBannerDTO service " + lstUrls.size());
@@ -52,18 +55,15 @@ public class VideoDataService extends Service {
                 Thread thread = new Thread() {
                     @Override
                     public void run() {
-
+                        String url = "";
                         for (String apiUrl : lstUrls) {
                             status = true;
                             System.out.println("tabBannerDTO thread " + isServiceRunning);
                             if (Utils.isInternetAvailable(AppController.getInstance().getApplicationContext())) {
                                 if (isServiceRunning) {
-                                    String url = "";
-                                    if (apiUrl.contains("TrendingPlayList")) {
-                                        url = apiUrl + "userid=" + AppController.getInstance().getModelFacade().getLocalModel().getUserId() + "&Trending List";
-                                    } else {
-                                        url = apiUrl + "userid=" + AppController.getInstance().getModelFacade().getLocalModel().getUserId();
-                                    }
+
+                                    url = apiUrl + "userid=" + AppController.getInstance().getModelFacade().getLocalModel().getUserId();
+
                                     try {
                                         arrayListVideos.addAll(AppController.getInstance().getServiceManager().getVaultService().getVideosListFromServer(url));
                                         System.out.println("Size of list after calling " + apiUrl + " : " + arrayListVideos.size());
@@ -75,12 +75,14 @@ public class VideoDataService extends Service {
                                     }
 
                                     if (status)
-                                        VaultDatabaseHelper.getInstance(getApplicationContext()).insertVideosInDatabase(arrayListVideos);
 
-                                    Intent broadCastIntent = new Intent();
-                                    if (url.toLowerCase().contains("featured") || url.toLowerCase().contains("TrendingPlayList")) {
+                                   /* Intent broadCastIntent = new Intent();
+                                    if (url.toLowerCase().contains("featured")) {
                                         broadCastIntent.setAction(FeaturedFragment.FeaturedResponseReceiver.ACTION_RESP);
                                     }
+                                    broadCastIntent.addCategory(Intent.CATEGORY_DEFAULT);
+                                    sendBroadcast(broadCastIntent);*/
+
 
 //                                    else if (url.toLowerCase().contains("games")) {
 //                                         broadCastIntent.setAction(GamesFragment.GamesResponseReceiver.ACTION_RESP);
@@ -92,9 +94,6 @@ public class VideoDataService extends Service {
 //                                    {
 //                                         broadCastIntent.setAction(OpponentsFragment.OpponentsResponseReceiver.ACTION_RESP);
 //                                    }
-
-                                    broadCastIntent.addCategory(Intent.CATEGORY_DEFAULT);
-                                    sendBroadcast(broadCastIntent);
                                     arrayListVideos.clear();
                                     System.out.println("tabBannerDTO thread end ");
                                 }
@@ -104,6 +103,7 @@ public class VideoDataService extends Service {
                                 stopSelf();
                             }
                         }
+
                         isServiceRunning = false;
                         AppController.getInstance().getModelFacade().getLocalModel().getAPI_URLS().clear();
                         stopSelf();

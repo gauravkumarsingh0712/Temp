@@ -68,6 +68,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ncsavault.alabamavault.models.LoginEmailModel;
+import com.ncsavault.alabamavault.service.TrendingFeaturedVideoService;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.reginald.editspinner.EditSpinner;
 import com.ncsavault.alabamavault.R;
@@ -1680,8 +1681,9 @@ public class UploadPhotoActivity extends PermissionActivity implements AbstractV
                         AppController.getInstance().handleEvent(AppDefines.EVENT_ID_MAIN_SCREEN);
                         overridePendingTransition(R.anim.slideup, R.anim.nochange);
                         finish();
-                        if (!VideoDataService.isServiceRunning)
-                            startService(new Intent(UploadPhotoActivity.this, VideoDataService.class));
+                        //gk if (!VideoDataService.isServiceRunning)
+                        startService(new Intent(UploadPhotoActivity.this, TrendingFeaturedVideoService.class));
+                            //startService(new Intent(UploadPhotoActivity.this, VideoDataService.class));
                     }
                 }
 
@@ -1691,7 +1693,7 @@ public class UploadPhotoActivity extends PermissionActivity implements AbstractV
             pDialog.dismiss();
         } catch (Exception e) {
             e.printStackTrace();
-            stopService(new Intent(UploadPhotoActivity.this, VideoDataService.class));
+            stopService(new Intent(UploadPhotoActivity.this, TrendingFeaturedVideoService.class));
             VaultDatabaseHelper.getInstance(getApplicationContext()).removeAllRecords();
             pDialog.dismiss();
         }

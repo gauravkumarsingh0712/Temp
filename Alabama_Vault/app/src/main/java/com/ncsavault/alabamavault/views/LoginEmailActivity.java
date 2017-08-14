@@ -47,7 +47,7 @@ import com.ncsavault.alabamavault.models.FBLoginModel;
 import com.ncsavault.alabamavault.models.FetchingAllDataModel;
 import com.ncsavault.alabamavault.models.LoginEmailModel;
 import com.ncsavault.alabamavault.models.LoginPasswordModel;
-import com.ncsavault.alabamavault.service.VideoDataService;
+import com.ncsavault.alabamavault.service.TrendingFeaturedVideoService;
 import com.ncsavault.alabamavault.utils.Utils;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -83,6 +83,7 @@ import org.json.JSONObject;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -876,9 +877,11 @@ public class LoginEmailActivity extends BaseActivity implements GoogleApiClient.
 
                                                       overridePendingTransition(R.anim.slideup, R.anim.nochange);
                                                       finish();
-                                                      if (!VideoDataService.isServiceRunning)
+                                                      /*if (!VideoDataService.isServiceRunning)
 
-                                                          startService(new Intent(LoginEmailActivity.this, VideoDataService.class));
+                                                          startService(new Intent(LoginEmailActivity.this, VideoDataService.class));*/
+                                                      Intent intent = new Intent(LoginEmailActivity.this, TrendingFeaturedVideoService.class);
+                                                      startService(intent);
                                                   }
                                               } else {
                                                   showToastMessage(GlobalConstants.MSG_CONNECTION_TIMEOUT);
@@ -890,7 +893,7 @@ public class LoginEmailActivity extends BaseActivity implements GoogleApiClient.
 
                                       } catch (Exception e) {
                                           e.printStackTrace();
-                                          stopService(new Intent(LoginEmailActivity.this, VideoDataService.class));
+                                          stopService(new Intent(LoginEmailActivity.this, TrendingFeaturedVideoService.class));
                                           VaultDatabaseHelper.getInstance(getApplicationContext()).removeAllRecords();
                                           pDialog.dismiss();
                                       }

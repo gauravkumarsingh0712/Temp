@@ -118,14 +118,14 @@ public class VideoDetailAdapter extends RecyclerView.Adapter<VideoDetailAdapter.
         }
 
         if (newVideoDto.isVideoIsFavorite())
-            viewHolder.savedVideoImageView.setBackgroundResource(R.drawable.saved_video_img);
+            viewHolder.savedVideoImageView.setImageResource(R.drawable.saved_video_img);
         else
-            viewHolder.savedVideoImageView.setBackgroundResource(R.drawable.video_save);
+            viewHolder.savedVideoImageView.setImageResource(R.drawable.video_save);
 
         if (VaultDatabaseHelper.getInstance(mContext.getApplicationContext()).isFavorite(newVideoDto.getVideoId()))
-            viewHolder.savedVideoImageView.setBackgroundResource(R.drawable.saved_video_img);
+            viewHolder.savedVideoImageView.setImageResource(R.drawable.saved_video_img);
         else
-            viewHolder.savedVideoImageView.setBackgroundResource(R.drawable.video_save);
+            viewHolder.savedVideoImageView.setImageResource(R.drawable.video_save);
 
         mVideoClickListener.onClick(viewHolder,position);
 

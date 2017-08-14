@@ -1,10 +1,6 @@
 [
     {
-        "merged": "/Users/siddharthyadav/Downloads/Temp-master/Alabama_Vault/D:\\UgaProject_latest\\Android-Alabama-App\\Alabama_Vault\\indicatorlibrary\\build\\intermediates\\res\\merged\\debug\\drawable\\vpi__tab_indicator.xml",
-        "source": "/Users/siddharthyadav/Downloads/Temp-master/Alabama_Vault/D:\\UgaProject_latest\\Android-Alabama-App\\Alabama_Vault\\indicatorlibrary\\src\\main\\res\\drawable\\vpi__tab_indicator.xml"
-    },
-    {
-        "merged": "/Users/siddharthyadav/Downloads/Temp-master/Alabama_Vault/indicatorlibrary/build/intermediates/res/merged/debug/drawable/vpi__tab_indicator.xml",
-        "source": "/Users/siddharthyadav/Downloads/Temp-master/Alabama_Vault/indicatorlibrary/src/main/res/drawable/vpi__tab_indicator.xml"
+        "merged": "D:\\UgaProject_latest\\Android-Alabama-App\\Alabama_Vault\\indicatorlibrary\\build\\intermediates\\res\\merged\\debug\\drawable\\vpi__tab_indicator.xml",
+        "source": "D:\\UgaProject_latest\\Android-Alabama-App\\Alabama_Vault\\indicatorlibrary\\src\\main\\res\\drawable\\vpi__tab_indicator.xml"
     }
 ]

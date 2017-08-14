@@ -15,14 +15,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.ncsavault.alabamavault.R;
 import com.ncsavault.alabamavault.controllers.AppController;
+import com.ncsavault.alabamavault.dto.TabBannerDTO;
 import com.ncsavault.alabamavault.dto.VideoDTO;
 import com.ncsavault.alabamavault.views.HomeScreen;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -55,10 +58,14 @@ public class FilterSubtypesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     ImageLoader imageLoader;
     public static DisplayImageOptions options;
 
+    public ArrayList<VideoDTO> trendingVideoList=new ArrayList<>();
+    BannerClickListener bannerClickListener;
 
-    public FilterSubtypesAdapter(Activity mContext, List<VideoDTO> albumList) {
+
+    public FilterSubtypesAdapter(Activity mContext, List<VideoDTO> albumList, ArrayList<VideoDTO> trendingVideoList, BannerClickListener bannerClickListener) {
         this.mContext = mContext;
         this.albumList = albumList;
+        this.trendingVideoList=trendingVideoList;
         getScreenDimensions();
 //        screenSize  = mContext.getResources().getConfiguration().screenLayout &
 //                Configuration.SCREENLAYOUT_SIZE_MASK;
@@ -70,8 +77,14 @@ public class FilterSubtypesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 .imageScaleType(ImageScaleType.EXACTLY)
                 .build();
         imageLoader = AppController.getInstance().getImageLoader();
+        this.bannerClickListener = bannerClickListener;
 
 
+    }
+
+    public interface BannerClickListener
+    {
+        void onClick(FilterSubtypesAdapter.BannerViewHolder videoViewHolder,int position);
     }
 
 
@@ -196,12 +209,33 @@ public class FilterSubtypesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 setHorizentalPager(holder);
                 break;
             case BANNER_VIEW:
-
+                setBanner(holder, position);
                 break;
         }
 
 //        holder.mVideoNumber.setText(album.getVideoNumer());
 //        holder.mVideoName.setText(album.getName() + " songs");
+    }
+
+    private void setBanner(RecyclerView.ViewHolder holder, int position) {
+        final BannerViewHolder viewholer = (BannerViewHolder) holder;
+        if(AppController.getInstance().getModelFacade().getLocalModel().isBannerActivated()) {
+            VideoDTO videoDTO = albumList.get(position);
+            viewholer.imageviewBanner.setVisibility(View.VISIBLE);
+            viewholer.bannerLayout.setVisibility(View.VISIBLE);
+
+            Glide.with(mContext)
+                    .load(videoDTO.getVideoStillUrl())
+                    .placeholder(R.drawable.alabama_vault_logo)
+                    .into(viewholer.imageviewBanner);
+
+            bannerClickListener.onClick((BannerViewHolder) holder, position);
+        }else
+        {
+            viewholer.imageviewBanner.setVisibility(View.GONE);
+            viewholer.bannerLayout.setVisibility(View.GONE);
+        }
+
     }
 
 
@@ -272,7 +306,7 @@ public class FilterSubtypesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         // vhHeader.pager.setPageTransformer(false, new CarouselEffectTransformer(mContext,displayWidth));
 
-        HorizontalPagerAdapter adapter = new HorizontalPagerAdapter(mContext);
+        HorizontalPagerAdapter adapter = new HorizontalPagerAdapter(mContext, trendingVideoList);
         vhHeader.pager.setAdapter(adapter);
         vhHeader.pager.setOffscreenPageLimit(adapter.getCount());
         vhHeader.pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -318,7 +352,7 @@ public class FilterSubtypesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             progressBar = (ProgressBar) view.findViewById(R.id.progressbar);
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                 progressBar.setIndeterminateDrawable(AppController.getInstance().getApplication().getResources().getDrawable(R.drawable.circle_progress_bar_lower));
-            } else{
+            } else {
                 progressBar.setIndeterminateDrawable(ResourcesCompat.getDrawable(AppController.getInstance().getApplication().getResources(), R.drawable.progress_large_material, null));
             }
         }
@@ -338,10 +372,13 @@ public class FilterSubtypesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     public class BannerViewHolder extends RecyclerView.ViewHolder {
 
-        public AdView adView;
+        public ImageView imageviewBanner;
+        public LinearLayout bannerLayout;
 
         public BannerViewHolder(View itemView) {
             super(itemView);
+            imageviewBanner = (ImageView) itemView.findViewById(R.id.imageview_banner);
+            bannerLayout = (LinearLayout) itemView.findViewById(R.id.banner_layout);
         }
 
     }

@@ -55,6 +55,7 @@ public class VaultDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         VideoTable.onCreate(db);
+        TrendingVideoTable.onCreate(db);
         TabBannerTable.onCreate(db);
         CategoriesDatabaseTable.onCreate(db);
         PlaylistDatabaseTable.onCreate(db);
@@ -64,6 +65,7 @@ public class VaultDatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + OLD_VIDEO_TABLE);
         VideoTable.onUpgrade(db, oldVersion, newVersion);
+        TrendingVideoTable.onUpgrade(db, oldVersion, newVersion);
         TabBannerTable.onUpgrade(db, oldVersion, newVersion);
         CategoriesDatabaseTable.onUpgrade(db, oldVersion, newVersion);
         PlaylistDatabaseTable.onUpgrade(db, oldVersion, newVersion);
@@ -107,6 +109,163 @@ public class VaultDatabaseHelper extends SQLiteOpenHelper {
         }
         return 0;
     }
+
+
+    /**
+     * Method to check number of trending videos from the Trending VideoTable in database
+     * @return
+     */
+    public int getTrendingVideoCount(){
+        try {
+            SQLiteDatabase database = this.getReadableDatabase();
+            database.enableWriteAheadLogging();
+            Cursor cursor = database.rawQuery(TrendingVideoTable.selectAllVideos, null);
+
+            if (cursor != null) {
+                return cursor.getCount();
+            }
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+        return 0;
+    }
+
+
+    public ArrayList<VideoDTO> getAllTrendingVideoList(){
+        String selectOKFQuery = "SELECT * FROM " + TrendingVideoTable.TRENDING_VIDEO_TABLE;
+        try {
+            ArrayList<VideoDTO> videoDTOsArrayList = new ArrayList<VideoDTO>();
+            SQLiteDatabase database = this.getReadableDatabase();
+            database.enableWriteAheadLogging();
+            Cursor cursor = database.rawQuery(selectOKFQuery, null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    VideoDTO videoDTO = new VideoDTO();
+                    videoDTO.setVideoId(cursor.getLong(cursor.getColumnIndex(TrendingVideoTable.KEY_VIDEO_ID)));
+                    videoDTO.setVideoName(cursor.getString(cursor.getColumnIndex(TrendingVideoTable.KEY_VIDEO_NAME)));
+                    videoDTO.setVideoShortDescription(cursor.getString(cursor.getColumnIndex(TrendingVideoTable.KEY_VIDEO_SHORT_DESC)));
+                    videoDTO.setVideoLongDescription(cursor.getString(cursor.getColumnIndex(TrendingVideoTable.KEY_VIDEO_LONG_DESC)));
+                    videoDTO.setVideoShortUrl(cursor.getString(cursor.getColumnIndex(TrendingVideoTable.KEY_VIDEO_SHORT_URL)));
+                    videoDTO.setVideoLongUrl(cursor.getString(cursor.getColumnIndex(TrendingVideoTable.KEY_VIDEO_LONG_URL)));
+                    videoDTO.setVideoThumbnailUrl(cursor.getString(cursor.getColumnIndex(TrendingVideoTable.KEY_VIDEO_THUMB_URL)));
+                    videoDTO.setVideoStillUrl(cursor.getString(cursor.getColumnIndex(TrendingVideoTable.KEY_VIDEO_STILL_URL)));
+                    videoDTO.setVideoCoverUrl(cursor.getString(cursor.getColumnIndex(TrendingVideoTable.KEY_VIDEO_COVER_URL)));
+                    videoDTO.setVideoWideStillUrl(cursor.getString(cursor.getColumnIndex(TrendingVideoTable.KEY_VIDEO_WIDE_STILL_URL)));
+                    videoDTO.setVideoBadgeUrl(cursor.getString(cursor.getColumnIndex(TrendingVideoTable.KEY_VIDEO_BADGE_URL)));
+                    videoDTO.setVideoDuration(cursor.getLong(cursor.getColumnIndex(TrendingVideoTable.KEY_VIDEO_DURATION)));
+                    videoDTO.setVideoTags(cursor.getString(cursor.getColumnIndex(TrendingVideoTable.KEY_VIDEO_TAGS)));
+                    if (cursor.getInt(cursor.getColumnIndex(TrendingVideoTable.KEY_VIDEO_IS_FAVORITE)) == 0)
+                        videoDTO.setVideoIsFavorite(false);
+                    else
+                        videoDTO.setVideoIsFavorite(true);
+
+//                    videoDTO.setVideoIndex(cursor.getInt(cursor.getColumnIndex(VideoTable.KEY_VIDEO_INDEX)));
+                    videoDTO.setVideoSocialUrl(cursor.getString(cursor.getColumnIndex(TrendingVideoTable.KEY_VIDEO_SOCIAL_URL)));
+
+                    videoDTOsArrayList.add(videoDTO);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+            return videoDTOsArrayList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<VideoDTO>();
+        }
+    }
+
+    /**
+     * This method is used to check trending video is available in database or not
+     * not----------
+     *
+     * @param videoId
+     * @param videoId
+     * @return
+     */
+    public boolean isTrendingVideoAvailableInDB(long videoId) {
+        // TODO Auto-generated method stub
+        int count = 0;
+        SQLiteDatabase database = this.getReadableDatabase();
+        database.enableWriteAheadLogging();
+        String query = "select * from " + TrendingVideoTable.TRENDING_VIDEO_TABLE + " where " + TrendingVideoTable.KEY_VIDEO_ID + " = " + videoId;
+        Cursor cursor = database.rawQuery(query,null);
+        count = cursor.getCount();
+        cursor.close();
+        if (count > 0) {
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * Adding trending videos to the local database
+     */
+    public void insertTrendingVideosInDatabase(ArrayList<VideoDTO> listVideos) {
+        try {
+            SQLiteDatabase database = this.getReadableDatabase();
+            database.enableWriteAheadLogging();
+            ContentValues initialValues;
+            for (VideoDTO videoDTO : listVideos) {
+                //if video is not available in database, execute INSERT
+                if (!isTrendingVideoAvailableInDB(videoDTO.getVideoId())) {
+                    if(videoDTO.getVideoShortDescription() != null && videoDTO.getVideoName() != null) {
+                        initialValues = new ContentValues();
+                        initialValues.put(TrendingVideoTable.KEY_VIDEO_ID, videoDTO.getVideoId());
+                        initialValues.put(TrendingVideoTable.KEY_VIDEO_NAME, videoDTO.getVideoName());
+                        initialValues.put(TrendingVideoTable.KEY_VIDEO_SHORT_DESC, videoDTO.getVideoShortDescription());
+                        initialValues.put(TrendingVideoTable.KEY_VIDEO_LONG_DESC, videoDTO.getVideoLongDescription());
+                        initialValues.put(TrendingVideoTable.KEY_VIDEO_SHORT_URL, videoDTO.getVideoShortUrl());
+                        initialValues.put(TrendingVideoTable.KEY_VIDEO_LONG_URL, videoDTO.getVideoLongUrl());
+                        initialValues.put(TrendingVideoTable.KEY_VIDEO_THUMB_URL, videoDTO.getVideoThumbnailUrl());
+                        initialValues.put(TrendingVideoTable.KEY_VIDEO_STILL_URL, videoDTO.getVideoStillUrl());
+                        initialValues.put(TrendingVideoTable.KEY_VIDEO_COVER_URL, videoDTO.getVideoCoverUrl());
+                        initialValues.put(TrendingVideoTable.KEY_VIDEO_WIDE_STILL_URL, videoDTO.getVideoWideStillUrl());
+                        initialValues.put(TrendingVideoTable.KEY_VIDEO_BADGE_URL, videoDTO.getVideoBadgeUrl());
+                        initialValues.put(TrendingVideoTable.KEY_VIDEO_DURATION, videoDTO.getVideoDuration());
+                        initialValues.put(TrendingVideoTable.KEY_VIDEO_TAGS, videoDTO.getVideoTags());
+                        if (videoDTO.isVideoIsFavorite())
+                            initialValues.put(TrendingVideoTable.KEY_VIDEO_IS_FAVORITE, 1);
+                        else
+                            initialValues.put(TrendingVideoTable.KEY_VIDEO_IS_FAVORITE, 0);
+                        initialValues.put(TrendingVideoTable.KEY_VIDEO_INDEX, videoDTO.getVideoIndex());
+                        initialValues.put(TrendingVideoTable.KEY_VIDEO_SOCIAL_URL, videoDTO.getVideoSocialUrl());
+                        database.insert(TrendingVideoTable.TRENDING_VIDEO_TABLE, null, initialValues);
+                    }
+                }else{      // Perform UPDATE query on available record
+                    ContentValues updateExistingVideo = new ContentValues();
+                    updateExistingVideo.put(TrendingVideoTable.KEY_VIDEO_ID, videoDTO.getVideoId());
+                    updateExistingVideo.put(TrendingVideoTable.KEY_VIDEO_NAME, videoDTO.getVideoName());
+                    updateExistingVideo.put(TrendingVideoTable.KEY_VIDEO_SHORT_DESC, videoDTO.getVideoShortDescription());
+                    updateExistingVideo.put(TrendingVideoTable.KEY_VIDEO_LONG_DESC, videoDTO.getVideoLongDescription());
+                    updateExistingVideo.put(TrendingVideoTable.KEY_VIDEO_SHORT_URL, videoDTO.getVideoShortUrl());
+                    updateExistingVideo.put(TrendingVideoTable.KEY_VIDEO_LONG_URL, videoDTO.getVideoLongUrl());
+                    updateExistingVideo.put(TrendingVideoTable.KEY_VIDEO_THUMB_URL, videoDTO.getVideoThumbnailUrl());
+                    updateExistingVideo.put(TrendingVideoTable.KEY_VIDEO_STILL_URL, videoDTO.getVideoStillUrl());
+                    updateExistingVideo.put(TrendingVideoTable.KEY_VIDEO_COVER_URL, videoDTO.getVideoCoverUrl());
+                    updateExistingVideo.put(TrendingVideoTable.KEY_VIDEO_WIDE_STILL_URL, videoDTO.getVideoWideStillUrl());
+                    updateExistingVideo.put(TrendingVideoTable.KEY_VIDEO_BADGE_URL, videoDTO.getVideoBadgeUrl());
+                    updateExistingVideo.put(TrendingVideoTable.KEY_VIDEO_DURATION, videoDTO.getVideoDuration());
+                    updateExistingVideo.put(TrendingVideoTable.KEY_VIDEO_TAGS, videoDTO.getVideoTags());
+                    if (videoDTO.isVideoIsFavorite())
+                        updateExistingVideo.put(TrendingVideoTable.KEY_VIDEO_IS_FAVORITE, 1);
+                    else
+                        updateExistingVideo.put(TrendingVideoTable.KEY_VIDEO_IS_FAVORITE, 0);
+//                    updateExistingVideo.put(VideoTable.KEY_VIDEO_INDEX, videoDTO.getVideoIndex());
+
+                    updateExistingVideo.put(TrendingVideoTable.KEY_VIDEO_SOCIAL_URL, videoDTO.getVideoSocialUrl());
+
+                    database.update(TrendingVideoTable.TRENDING_VIDEO_TABLE, updateExistingVideo, TrendingVideoTable.KEY_VIDEO_ID + "=?", new String[]{"" + videoDTO.getVideoId()});
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     public ArrayList<VideoDTO> getVideoListByTab(String tabIdentifier){
         try {

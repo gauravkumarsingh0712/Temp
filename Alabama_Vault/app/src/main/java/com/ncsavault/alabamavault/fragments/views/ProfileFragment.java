@@ -2,9 +2,13 @@ package com.ncsavault.alabamavault.fragments.views;
 
 import android.animation.Animator;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SwitchCompat;
@@ -13,15 +17,27 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.ncsavault.alabamavault.R;
+import com.ncsavault.alabamavault.controllers.AppController;
+import com.ncsavault.alabamavault.globalconstants.GlobalConstants;
+import com.ncsavault.alabamavault.models.BaseModel;
+import com.ncsavault.alabamavault.models.UserProfileModel;
+import com.ncsavault.alabamavault.utils.Utils;
+import com.ncsavault.alabamavault.views.AbstractView;
+import com.ncsavault.alabamavault.views.HomeScreen;
+import com.ncsavault.alabamavault.views.UserProfileActivity;
+
+import java.io.File;
 
 /**
  * Created by gauravkumar.singh on 6/12/2017.
  */
 
-public class ProfileFragment extends BaseFragment {
+public class ProfileFragment extends BaseFragment implements AbstractView {
 
     private static Context mContext;
     private SwitchCompat mSwitchCompat;
@@ -45,49 +61,8 @@ public class ProfileFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView =  inflater.inflate(R.layout.user_profile_screen_layout, container, false);
-////        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//////            int randomColor =
-//////                    Color.argb(255, (int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255));
-//////            rootView.setBackgroundColor((randomColor));
-////
-////            // To run the animation as soon as the view is layout in the view hierarchy we add this
-////            // listener and remove it
-////            // as soon as it runs to prevent multiple animations if the view changes bounds
-////            rootView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-////                @Override
-////                public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop,
-////                                           int oldRight, int oldBottom) {
-////                    v.removeOnLayoutChangeListener(this);
-////                    int cx = getArguments().getInt("cx");
-////                    int cy = getArguments().getInt("cy");
-////
-////                    // get the hypothenuse so the radius is from one corner to the other
-////                    int radius = (int) Math.hypot(right, bottom);
-////
-////                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-////                        Animator reveal = ViewAnimationUtils.createCircularReveal(v, cx, cy, 0, radius);
-////                        reveal.setInterpolator(new DecelerateInterpolator(2f));
-////                        reveal.setDuration(1000);
-////                        reveal.start();
-////                    }
-////                }
-////            });
-////
-////            // attach a touch listener
-////            rootView.setOnTouchListener(new View.OnTouchListener() {
-////                @Override
-////                public boolean onTouch(View v, MotionEvent event) {
-////                    if (listener != null) {
-////                        listener.onFragmentTouched(ProfileFragment.this, event.getX(), event.getY());
-////                    }
-////                    return true;
-////                }
-////            });
-//        }
 
         return rootView;
-
-
     }
 
     @Override
@@ -95,14 +70,30 @@ public class ProfileFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         mSwitchCompat = (SwitchCompat) view.findViewById(R.id.toggle_button);
         mPlayerBackgroundImage = (ImageView) view.findViewById(R.id.profile_image);
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                enterReveal(mPlayerBackgroundImage);
-//            }
-//        },500);
+
+    //    if (Utils.isInternetAvailable(mContext))
+     //       loadUserDataFromServer();
+
+    }
+    ProgressDialog pDialog;
+    private UserProfileModel mUserProfileModel;
+    public void loadUserDataFromServer() {
+
+        pDialog = new ProgressDialog(mContext, R.style.CustomDialogTheme);
+        pDialog.show();
+        pDialog.setContentView(Utils.getInstance().setViewToProgressDialog((HomeScreen)mContext));
+        pDialog.setCanceledOnTouchOutside(false);
+        pDialog.setCancelable(false);
+
+        SharedPreferences pref = mContext.getSharedPreferences(GlobalConstants.PREF_PACKAGE_NAME, Context.MODE_PRIVATE);
+        final long userId = pref.getLong(GlobalConstants.PREF_VAULT_USER_ID_LONG, 0);
+        final String email = pref.getString(GlobalConstants.PREF_VAULT_USER_EMAIL, "");
 
 
+        mUserProfileModel = AppController.getInstance().getModelFacade().getRemoteModel().getUserProfileModel();
+        mUserProfileModel.registerView(this);
+        mUserProfileModel.setProgressDialog(pDialog);
+        mUserProfileModel.loadFetchData(email, userId);
     }
 
     @Override
@@ -113,44 +104,45 @@ public class ProfileFragment extends BaseFragment {
         }
     }
 
-    void enterReveal(ImageView imageView) {
-        // previously invisible view
-        // get the center for the clipping circle
-//        int cx = imageView.getMeasuredWidth() / 2;
-//        int cy = imageView.getMeasuredHeight() / 2;
-//
-//        // get the final radius for the clipping circle
-//        int finalRadius = Math.max(imageView.getWidth(), imageView.getHeight()) / 2;
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            // create the animator for this view (the start radius is zero)
-//            Animator anim =
-//                    ViewAnimationUtils.createCircularReveal(imageView, cx, cy, 0, finalRadius);
-//
-//            // make the view visible and start the animation
-//            imageView.setVisibility(View.VISIBLE);
-//            anim.start();
-//        }
+    @Override
+    public void update() {
+        ((HomeScreen)mContext).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mUserProfileModel != null && mUserProfileModel.getState() == BaseModel.STATE_SUCCESS) {
+                    try {
+                        pDialog.dismiss();
+                        if (mUserProfileModel.getUserProfileResult()) {
+                            ((HomeScreen )mContext).showToastMessage("Profile updated successfully");
+                        } else {
+                            ((HomeScreen )mContext).showToastMessage("Error updating information");
+                           //gk loadUserDataFromLocal();
+                        }
+                        final File root = new File(Environment.getExternalStorageDirectory() +
+                                File.separator + GlobalConstants.PROFILE_PIC_DIRECTORY + File.separator);
+                        if (root != null) {
+                            if (root.listFiles() != null) {
+                                for (File childFile : root.listFiles()) {
+                                    if (childFile != null) {
+                                        if (childFile.exists())
+                                            childFile.delete();
+                                    }
+                                }
+                                if (root.exists())
+                                    root.delete();
+                            }
+                        }
 
-//        int centerX = (imageView.getLeft() + imageView.getRight()) / 2;
-//        int centerY = (imageView.getTop() + imageView.getBottom()) / 2;
-        // finding X and Y co-ordinates
-        int centerX = (imageView.getLeft() + imageView.getRight());
-        int centerY = (imageView.getLeft());
-
-        int startRadius = 0;
-// get the final radius for the clipping circle
-        int endRadius = Math.max(imageView.getWidth(), imageView.getHeight());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-// create the animator for this view (the start radius is zero)
-            Animator anim =
-                    ViewAnimationUtils.createCircularReveal(imageView, centerX, centerY, startRadius, endRadius);
-            anim.setInterpolator(new AccelerateDecelerateInterpolator());
-            anim.setDuration(1000);
-
-// make the view visible and start the animation
-            imageView.setVisibility(View.VISIBLE);
-            anim.start();
-        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else if (mUserProfileModel != null && mUserProfileModel.getState() == BaseModel.STATE_SUCCESS_FETCH_ALL_DATA) {
+                 //   loadData();
+                }
+            }
+        });
     }
+
+
 
 }

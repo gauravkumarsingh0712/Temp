@@ -7,16 +7,17 @@
     <LinearLayout
         android:id="@+id/banner_layout"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="70dp"
         android:layout_alignParentTop="true"
         android:background="@color/RoyalBlue"
-        android:orientation="horizontal">
-        
+        android:orientation="horizontal"
+        android:visibility="visible">
+
         <ImageView
             android:id="@+id/imageview_banner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
             android:src="@drawable/alabama_vault_logo"/>
 
     </LinearLayout>

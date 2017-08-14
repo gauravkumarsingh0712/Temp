@@ -3,6 +3,7 @@ package com.ncsavault.alabamavault.models;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -191,12 +192,16 @@ public class BannerDataModel extends BaseModel {
             Intent broadCastIntent = new Intent();
             try {
                 arrayListBanner.addAll(AppController.getInstance().getServiceManager().getVaultService().getAllTabBannerData());
+
                 state = STATE_SUCCESS;
                 ArrayList<String> lstUrls = new ArrayList<>();
 
                 File imageFile;
                 for (TabBannerDTO bDTO : arrayListBanner) {
-                    TabBannerDTO localBannerData = VaultDatabaseHelper.getInstance(context.getApplicationContext()).getLocalTabBannerDataByTabId(bDTO.getTabId());
+                     TabBannerDTO localBannerData = VaultDatabaseHelper.getInstance(context.getApplicationContext()).getLocalTabBannerDataByTabId(bDTO.getTabId());
+                    if (bDTO.getTabName().toLowerCase().contains((GlobalConstants.FEATURED).toLowerCase())) {
+                        AppController.getInstance().getModelFacade().getLocalModel().setTabId(bDTO.getTabId());
+                    }
                     if (localBannerData != null) {
                         if ((localBannerData.getBannerModified() != bDTO.getBannerModified()) || (localBannerData.getBannerCreated() != bDTO.getBannerCreated())) {
                             VaultDatabaseHelper.getInstance(context.getApplicationContext()).updateBannerData(bDTO);
@@ -290,10 +295,6 @@ public class BannerDataModel extends BaseModel {
 
                     }
                 }
-
-                String url = GlobalConstants.GET_TRENDING_PLAYLIST_URL;
-                lstUrls.add(url);
-                AppController.getInstance().getModelFacade().getLocalModel().setAPI_URLS(lstUrls);
 
             } catch (Exception e) {
                 e.printStackTrace();

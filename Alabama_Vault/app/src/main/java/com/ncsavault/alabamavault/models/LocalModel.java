@@ -28,6 +28,25 @@ public class LocalModel implements IModel {
     private User user;
     private boolean isOverride;
     private boolean isTwitterLogin;
+    private long tabId;
+
+    public boolean isBannerActivated() {
+        return isBannerActivated;
+    }
+
+    public void setBannerActivated(boolean bannerActivated) {
+        isBannerActivated = bannerActivated;
+    }
+
+    private boolean isBannerActivated;
+
+    public long getTabId() {
+        return tabId;
+    }
+
+    public void setTabId(long tabId) {
+        this.tabId = tabId;
+    }
 
     public String getNotificationVideoId() {
         return notificationVideoId;

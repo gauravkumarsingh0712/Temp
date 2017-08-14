@@ -78,6 +78,7 @@ public class PlaylistFragment extends Fragment implements PlaylistDataAdapter.Pl
     long tabId = 0;
     private TabBannerDTO tabBannerDTO = null;
     private ImageView bannerImageView;
+    private LinearLayout bannerLayout;
     private VideoDataTaskModel mVideoDataTaskModel;
     private ProgressDialog pDialog = null;
     private PullRefreshLayout refreshLayout;
@@ -148,14 +149,13 @@ public class PlaylistFragment extends Fragment implements PlaylistDataAdapter.Pl
         }else {
             getPlaylistDateFromDatabase();
         }
-
-
     }
 
     private void initViews(View view)
     {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         bannerImageView = (ImageView) view.findViewById(R.id.img_banner);
+        bannerLayout = (LinearLayout) view.findViewById(R.id.syncro_banner_layout);
         progressBar = (ProgressBar) view.findViewById(R.id.progressbar);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             progressBar.setIndeterminateDrawable(mContext.getResources().getDrawable(R.drawable.circle_progress_bar_lower));
@@ -493,6 +493,7 @@ public class PlaylistFragment extends Fragment implements PlaylistDataAdapter.Pl
     public void showBannerImage(final ImageView bannerCacheableImageView, TabBannerDTO tabBannerDTO) {
         if (tabBannerDTO != null)
             if (tabBannerDTO.isBannerActive()) {
+                bannerLayout.setVisibility(View.VISIBLE);
                 DisplayImageOptions imgLoadingOptions = new DisplayImageOptions.Builder()
                         .cacheOnDisk(true).resetViewBeforeLoading(true)
                         .cacheInMemory(true)
@@ -525,6 +526,7 @@ public class PlaylistFragment extends Fragment implements PlaylistDataAdapter.Pl
                         });
             } else {
                 bannerCacheableImageView.setVisibility(View.GONE);
+                bannerLayout.setVisibility(View.GONE);
             }
     }
 

@@ -41,6 +41,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.ncsavault.alabamavault.service.TrendingFeaturedVideoService;
 import com.twitter.sdk.android.Twitter;
 import com.ncsavault.alabamavault.R;
 import com.ncsavault.alabamavault.controllers.AppController;
@@ -1758,9 +1759,9 @@ public class RegistrationActivity extends PermissionActivity implements Abstract
                         AppController.getInstance().handleEvent(AppDefines.EVENT_ID_MAIN_SCREEN);
                         overridePendingTransition(R.anim.slideup, R.anim.nochange);
                         finish();
-                        if (!VideoDataService.isServiceRunning)
+                        //gk if (!VideoDataService.isServiceRunning)
 
-                            startService(new Intent(RegistrationActivity.this, VideoDataService.class));
+                            startService(new Intent(RegistrationActivity.this, TrendingFeaturedVideoService.class));
                     }
                 } else {
                     Utils.getInstance().showToastMessage(RegistrationActivity.this, GlobalConstants.MSG_CONNECTION_TIMEOUT, view);
@@ -1772,7 +1773,7 @@ public class RegistrationActivity extends PermissionActivity implements Abstract
 
         } catch (Exception e) {
             e.printStackTrace();
-            stopService(new Intent(RegistrationActivity.this, VideoDataService.class));
+            stopService(new Intent(RegistrationActivity.this, TrendingFeaturedVideoService.class));
             VaultDatabaseHelper.getInstance(getApplicationContext()).removeAllRecords();
             pDialog.dismiss();
 

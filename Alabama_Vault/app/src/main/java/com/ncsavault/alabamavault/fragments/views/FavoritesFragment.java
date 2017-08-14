@@ -969,8 +969,10 @@ public class FavoritesFragment extends BaseFragment {
                 if (result.size() > 0) {
                     VaultDatabaseHelper.getInstance(mActivity.getApplicationContext()).setAllFavoriteStatusToFalse();
                     for (VideoDTO vidDto : result) {
-                        if (VaultDatabaseHelper.getInstance(mActivity.getApplicationContext()).checkVideoAvailability(vidDto.getVideoId())) {
-                            VaultDatabaseHelper.getInstance(mActivity.getApplicationContext()).setFavoriteFlag(1, vidDto.getVideoId());
+                        if (VaultDatabaseHelper.getInstance(mActivity.getApplicationContext()).
+                                checkVideoAvailability(vidDto.getVideoId())) {
+                            VaultDatabaseHelper.getInstance(mActivity.getApplicationContext()).
+                                    setFavoriteFlag(1, vidDto.getVideoId());
                         }
                     }
                     favoriteVideoList.clear();

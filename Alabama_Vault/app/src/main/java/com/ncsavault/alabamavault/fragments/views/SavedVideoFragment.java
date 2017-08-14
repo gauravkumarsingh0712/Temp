@@ -26,8 +26,6 @@ import com.ncsavault.alabamavault.controllers.AppController;
 import com.ncsavault.alabamavault.database.VaultDatabaseHelper;
 import com.ncsavault.alabamavault.dto.VideoDTO;
 import com.ncsavault.alabamavault.globalconstants.GlobalConstants;
-import com.ncsavault.alabamavault.models.LocalModel;
-import com.ncsavault.alabamavault.service.VideoDataService;
 import com.ncsavault.alabamavault.utils.Utils;
 
 import java.util.ArrayList;
@@ -51,6 +49,7 @@ public class SavedVideoFragment extends Fragment {
 
     public static Fragment newInstance(Context context) {
         Fragment frag = new SavedVideoFragment();
+
         mContext = context;
         Bundle args = new Bundle();
         return frag;
@@ -227,7 +226,7 @@ public class SavedVideoFragment extends Fragment {
 
 
 
-                savedVideoAdapter  = new SavedVideoAdapter(mContext,favoriteVideoList);
+
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -238,9 +237,40 @@ public class SavedVideoFragment extends Fragment {
         @Override
         protected void onPostExecute(final ArrayList<VideoDTO> result) {
             super.onPostExecute(result);
-            try {
 
-                if(result.size() == 0)
+              try {
+
+                for (VideoDTO vidDto : result) {
+                    if (VaultDatabaseHelper.getInstance(mContext.getApplicationContext()).
+                            checkVideoAvailability(vidDto.getVideoId())) {
+                        VaultDatabaseHelper.getInstance(mContext.getApplicationContext()).
+                                setFavoriteFlag(1, vidDto.getVideoId());
+                    }
+                }
+                favoriteVideoList.clear();
+                favoriteVideoList.addAll(VaultDatabaseHelper.getInstance(mContext.getApplicationContext())
+                        .getFavouriteVideosArrayList());
+
+                Collections.sort(favoriteVideoList, new Comparator<VideoDTO>() {
+
+                    @Override
+                    public int compare(VideoDTO lhs, VideoDTO rhs) {
+                        // TODO Auto-generated method stub
+                        return lhs.getVideoName().toLowerCase()
+                                .compareTo(rhs.getVideoName().toLowerCase());
+                    }
+                });
+
+
+                savedVideoAdapter  = new SavedVideoAdapter(mContext,favoriteVideoList);
+                mRecyclerView.setHasFixedSize(true);
+                LinearLayoutManager llm = new LinearLayoutManager(mContext);
+                llm.setOrientation(LinearLayoutManager.VERTICAL);
+                mRecyclerView.setLayoutManager(llm);
+                mRecyclerView.setAdapter(savedVideoAdapter);
+                refreshLayout.setRefreshing(false);
+
+                if(favoriteVideoList.size() == 0)
                 {
                     tvNoRecoredFound.setVisibility(View.VISIBLE);
                     tvNoRecoredFound.setText(GlobalConstants.NO_RECORDS_FOUND);
@@ -249,13 +279,6 @@ public class SavedVideoFragment extends Fragment {
                     tvNoRecoredFound.setVisibility(View.GONE);
                 }
 
-
-                mRecyclerView.setHasFixedSize(true);
-                LinearLayoutManager llm = new LinearLayoutManager(mContext);
-                llm.setOrientation(LinearLayoutManager.VERTICAL);
-                mRecyclerView.setLayoutManager(llm);
-                mRecyclerView.setAdapter(savedVideoAdapter);
-                refreshLayout.setRefreshing(false);
 
             } catch (Exception e) {
                 e.printStackTrace();

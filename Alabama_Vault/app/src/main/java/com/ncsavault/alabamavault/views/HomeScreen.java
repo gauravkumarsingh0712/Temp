@@ -79,13 +79,17 @@ public class HomeScreen extends AppCompatActivity implements  BottomNavigationBa
     private int[] bottomTabIcons = {R.drawable.home_icon, R.drawable.categories, R.drawable.video_save,
             R.drawable.user_profile};
 
-
     public static Toolbar mToolbar;
     Animation animation;
 
     ImageView imageViewSearch;
     EditText editTextSearch;
     ImageView imageViewLogo;
+    TextView textViewTitle1;
+    TextView textViewTitle2;
+    boolean imageSearchSelected=false;
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -108,27 +112,35 @@ public class HomeScreen extends AppCompatActivity implements  BottomNavigationBa
         mToolbar.setTitle("");
         mToolbar.setSubtitle("");
 
-        imageViewSearch= (ImageView) mToolbar.findViewById(R.id.imageview_search);
-        imageViewSearch.setTag(R.drawable.search);
-        editTextSearch= (EditText) mToolbar.findViewById(R.id.editText_search);
-        imageViewLogo= (ImageView) mToolbar.findViewById(R.id.imageview_logo);
+        imageViewSearch = (ImageView) mToolbar.findViewById(R.id.imageview_search);
+        editTextSearch = (EditText) mToolbar.findViewById(R.id.editText_search);
+        imageViewLogo = (ImageView) mToolbar.findViewById(R.id.imageview_logo);
+        textViewTitle1 =(TextView)mToolbar.findViewById(R.id.toolbar_title_1);
+        textViewTitle2= (TextView)mToolbar.findViewById(R.id.toolbar_title_2);
 
         imageViewSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(((Integer) imageViewSearch.getTag()).intValue() == R.drawable.search){
+
+
+                if(!imageSearchSelected){
                     editTextSearch.setVisibility(View.VISIBLE);
                     imageViewSearch.setImageResource(R.drawable.close);
-                    imageViewLogo.setVisibility(View.GONE);
+                    textViewTitle1.setVisibility(View.VISIBLE);
+                    textViewTitle2.setVisibility(View.GONE);
+                    imageSearchSelected=true;
                 }else{
                     editTextSearch.setVisibility(View.GONE);
                     imageViewSearch.setImageResource(R.drawable.search);
                     imageViewSearch.setTag(R.drawable.close);
-                    imageViewLogo.setVisibility(View.VISIBLE);
+                    textViewTitle1.setVisibility(View.VISIBLE);
+                    textViewTitle2.setVisibility(View.VISIBLE);
+                    imageSearchSelected=false;
                 }
 
             }
         });
+
 
         loadBottomNavigationItems();
 
@@ -272,6 +284,7 @@ public class HomeScreen extends AppCompatActivity implements  BottomNavigationBa
         if (fragment != null) {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.container, fragment);
+            fragmentTransaction.addToBackStack(fragment.getClass().getName());
             fragmentTransaction.commit();
         }
     }
