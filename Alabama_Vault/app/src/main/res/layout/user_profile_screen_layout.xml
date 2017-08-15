@@ -8,7 +8,7 @@
     android:background="@color/white">
 
     <ImageView
-        android:id="@+id/profile_image"
+        android:id="@+id/background_profile_image"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="fitXY"
@@ -88,17 +88,6 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.45" />
 
-    <!--<View-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="1dp"-->
-        <!--android:layout_marginLeft="0dp"-->
-        <!--android:layout_marginTop="0dp"-->
-        <!--android:background="@color/Gray"-->
-        <!--app:layout_constraintLeft_toLeftOf="parent"-->
-        <!--app:layout_constraintTop_toTopOf="@+id/guideline54"-->
-        <!--android:layout_marginRight="0dp"-->
-        <!--app:layout_constraintRight_toRightOf="parent" />-->
-
 
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"
@@ -131,27 +120,82 @@
                 android:id="@+id/firstandlastname_layout"
                 >
 
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="8dp"
-                    android:text="First"
-                    android:textSize="25sp"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintLeft_toLeftOf="parent" />
+                    android:id="@+id/text_linear_layout">
 
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/tv_first_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="8dp"
+                        android:text="First"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/tv_last_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="10dp"
+                        android:text="LastName"
+                        android:textSize="20sp"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:text="LastName"
-                    android:textSize="25sp"
-                     />
+                    android:weightSum="6"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/edit_linear_layout"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3">
+
+                    <EditText
+                        android:id="@+id/ed_first_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:fontFamily="sans-serif"
+                        android:hint="FIRST NAME"
+                        android:inputType="textEmailAddress"
+                        android:padding="5dp"
+                        android:textColor="@color/app_dark_grey"
+                        android:textColorHint="@color/app_dark_grey" />
+                </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3">
+
+                        <EditText
+                            android:id="@+id/ed_last_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:fontFamily="sans-serif"
+                            android:hint="LAST NAME"
+                            android:inputType="textEmailAddress"
+                            android:padding="5dp"
+                            android:textColor="@color/app_dark_grey"
+                            android:textColorHint="@color/app_dark_grey" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
 
             </LinearLayout>
 
@@ -176,7 +220,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="2"
+                    android:id="@+id/email_id"
                     android:text="gaurav@gmail.com"
+                    android:singleLine="true"
                     android:textSize="20dp" />
 
 
@@ -218,6 +264,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="2"
                     android:text="gaurav@gmail.com"
+                    android:id="@+id/twitter_email_id"
                     android:textSize="20dp" />
 
                 <RelativeLayout
@@ -259,7 +306,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="2"
+                    android:singleLine="true"
                     android:text="gaurav@gmail.com"
+                    android:id="@+id/facebook_email_id"
                     android:textSize="20dp" />
 
                 <RelativeLayout
@@ -302,6 +351,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_weight="2"
                     android:text="gaurav@gmail.com"
+                    android:id="@+id/tv_push_view"
                     android:textSize="20dp" />
 
                 <RelativeLayout
@@ -312,9 +362,10 @@
 
                     <android.support.v7.widget.SwitchCompat
                         android:id="@+id/toggle_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:layout_centerInParent="true"
+                        android:theme="@style/AppTheme"
                         android:checked="true" />
 
                 </RelativeLayout>
@@ -344,6 +395,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="10dp"
+                android:id="@+id/tv_reset_password"
                 />
 
             </LinearLayout>
@@ -365,6 +417,7 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginTop="10dp"
+                    android:id="@+id/tv_logout"
                     />
 
             </LinearLayout>

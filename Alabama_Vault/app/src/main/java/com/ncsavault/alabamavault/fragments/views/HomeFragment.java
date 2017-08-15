@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -181,6 +182,14 @@ public class HomeFragment extends BaseFragment implements AbsListView.OnScrollLi
         refreshLayout.setEnabled(false);
 
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            progressBar.setIndeterminateDrawable(mContext.getResources().getDrawable(R.drawable.
+                    circle_progress_bar_lower));
+        } else {
+            System.out.println("progress bar not showing ");
+            progressBar.setIndeterminateDrawable(ResourcesCompat.getDrawable(mContext.getResources(),
+                    R.drawable.progress_large_material, null));
+        }
     }
 
     PullRefreshLayout.OnRefreshListener refreshListener = new PullRefreshLayout.OnRefreshListener() {
@@ -327,6 +336,11 @@ public class HomeFragment extends BaseFragment implements AbsListView.OnScrollLi
                 mRecyclerView.setEnabled(false);
             }
 
+            if(progressBar != null)
+            {
+                progressBar.setVisibility(View.VISIBLE);
+            }
+
             refreshLayout.setRefreshing(true);
 //            if (adapter != null) {
 //                adapter.notifyDataSetChanged();
@@ -405,6 +419,11 @@ public class HomeFragment extends BaseFragment implements AbsListView.OnScrollLi
                         }
                     });
 
+                    if(progressBar != null)
+                    {
+                        progressBar.setVisibility(View.GONE);
+                    }
+
                     // ------- update BannerImage---------------------
 
 
@@ -475,6 +494,8 @@ public class HomeFragment extends BaseFragment implements AbsListView.OnScrollLi
 
             mRecyclerView = (RecyclerView) view.findViewById(R.id.card_recycler_view);
 
+
+
             getFeatureDataFromDataBase();
 
 
@@ -535,6 +556,11 @@ public class HomeFragment extends BaseFragment implements AbsListView.OnScrollLi
 
             }
 
+            if(progressBar != null)
+            {
+                progressBar.setVisibility(View.GONE);
+            }
+
             Collections.sort(mRecyclerViewItems, new Comparator<VideoDTO>() {
 
                 @Override
@@ -579,6 +605,11 @@ public class HomeFragment extends BaseFragment implements AbsListView.OnScrollLi
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
+
+                if(progressBar != null)
+                {
+                    progressBar.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -640,6 +671,12 @@ public class HomeFragment extends BaseFragment implements AbsListView.OnScrollLi
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
+
+                if(progressBar != null)
+                {
+                    progressBar.setVisibility(View.GONE);
+                }
+
                 mRecyclerView.setAdapter(adapter);
                 mRecyclerView.setHasFixedSize(true);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());

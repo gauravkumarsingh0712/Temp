@@ -6,14 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/VDarkGray">
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:indeterminateDuration="1100"
-            android:visibility="gone" />
-
         <com.baoyz.widget.PullRefreshLayout
             android:id="@+id/refresh_layout"
             android:layout_width="match_parent"
@@ -28,5 +20,14 @@
             android:scrollbars="vertical" />
 
         </com.baoyz.widget.PullRefreshLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminateDuration="1100"
+            android:visibility="visible" />
+
 
 </RelativeLayout>

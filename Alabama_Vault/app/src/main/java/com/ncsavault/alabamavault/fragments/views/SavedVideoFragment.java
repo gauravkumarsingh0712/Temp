@@ -1,6 +1,7 @@
 package com.ncsavault.alabamavault.fragments.views;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -100,7 +101,8 @@ public class SavedVideoFragment extends Fragment {
             progressBar.setIndeterminateDrawable(mContext.getResources().getDrawable(R.drawable.circle_progress_bar_lower));
         } else {
             System.out.println("progress bar not showing ");
-            progressBar.setIndeterminateDrawable(ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.progress_large_material, null));
+            progressBar.setIndeterminateDrawable(ResourcesCompat.getDrawable(mContext.getResources(),
+                    R.drawable.progress_large_material, null));
         }
         refreshLayout = (PullRefreshLayout) view.findViewById(R.id.refresh_layout);
 
@@ -213,7 +215,9 @@ public class SavedVideoFragment extends Fragment {
         @Override
         protected ArrayList<VideoDTO> doInBackground(Void... params) {
             try {
-                int userId = 1110;
+                SharedPreferences pref = AppController.getInstance().getApplicationContext().
+                        getSharedPreferences(GlobalConstants.PREF_PACKAGE_NAME, Context.MODE_PRIVATE);
+                long userId = pref.getLong(GlobalConstants.PREF_VAULT_USER_ID_LONG, 0);
                 try {
                     String url = GlobalConstants.FAVORITE_API_URL + "userId=" + userId;
 

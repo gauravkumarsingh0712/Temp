@@ -1756,7 +1756,7 @@ public class RegistrationActivity extends PermissionActivity implements Abstract
 
                     if (fbProfile != null || userId > 0) {
 
-                        AppController.getInstance().handleEvent(AppDefines.EVENT_ID_MAIN_SCREEN);
+                        AppController.getInstance().handleEvent(AppDefines.EVENT_ID_HOME_SCREEN);
                         overridePendingTransition(R.anim.slideup, R.anim.nochange);
                         finish();
                         //gk if (!VideoDataService.isServiceRunning)

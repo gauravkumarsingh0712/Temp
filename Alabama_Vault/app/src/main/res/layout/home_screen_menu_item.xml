@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Video Name"
-                android:layout_toLeftOf="@+id/imageview_video"
+                android:layout_toLeftOf="@+id/saved_imageview"
                 android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="20dp"
@@ -42,7 +42,7 @@
                 android:layout_marginLeft="10dp"/>
             
             <ImageView
-                android:id="@+id/imageview_video"
+                android:id="@+id/saved_imageview"
                 android:layout_alignParentRight="true"
                 android:layout_width="50dp"
                 android:layout_marginTop="10dp"

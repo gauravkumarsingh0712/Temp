@@ -1,7 +1,10 @@
 package com.ncsavault.alabamavault.fragments.views;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -24,8 +28,11 @@ import com.ncsavault.alabamavault.controllers.AppController;
 import com.ncsavault.alabamavault.database.VaultDatabaseHelper;
 import com.ncsavault.alabamavault.dto.VideoDTO;
 import com.ncsavault.alabamavault.globalconstants.GlobalConstants;
+import com.ncsavault.alabamavault.service.TrendingFeaturedVideoService;
+import com.ncsavault.alabamavault.service.VideoDataService;
 import com.ncsavault.alabamavault.utils.Utils;
 import com.ncsavault.alabamavault.views.HomeScreen;
+import com.ncsavault.alabamavault.views.LoginEmailActivity;
 import com.ncsavault.alabamavault.views.VideoInfoActivity;
 
 import java.util.ArrayList;
@@ -75,6 +82,11 @@ public class VideoDetailFragment extends Fragment implements VideoDetailAdapter.
         if (refreshLayout != null) {
             refreshLayout.setEnabled(true);
             refreshLayout.setOnRefreshListener(refreshListener);
+        }
+
+        if(videoDetailAdapter != null)
+        {
+            videoDetailAdapter.notifyDataSetChanged();
         }
     }
 
@@ -139,7 +151,10 @@ public class VideoDetailFragment extends Fragment implements VideoDetailAdapter.
             protected ArrayList<VideoDTO> doInBackground(Void... params) {
 
                 try {
-                    int userId = 1110;
+                    SharedPreferences pref = AppController.getInstance().getApplicationContext().
+                            getSharedPreferences(GlobalConstants.PREF_PACKAGE_NAME, Context.MODE_PRIVATE);
+                    long userId = pref.getLong(GlobalConstants.PREF_VAULT_USER_ID_LONG, 0);
+
                     String url = GlobalConstants.PLAYLIST_VIDEO_URL + "userid=" + userId + "&playlistid=" + playlistId;
                     videoDtoArrayList.clear();
                     videoDtoArrayList.addAll(AppController.getInstance().getServiceManager().getVaultService().getNewVideoData(url));
@@ -218,7 +233,7 @@ public class VideoDetailFragment extends Fragment implements VideoDetailAdapter.
         });
 
 
-        videoViewHolder.savedVideoImageView.setOnClickListener(new View.OnClickListener() {
+        videoViewHolder.mLayoutSavedImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -243,11 +258,11 @@ public class VideoDetailFragment extends Fragment implements VideoDetailAdapter.
 
     public void markFavoriteStatus(final VideoDetailAdapter.VideoViewHolder viewHolder, final int pos) {
         if (Utils.isInternetAvailable(mContext)) {
-//gk            if (AppController.getInstance().getModelFacade().getLocalModel().getUserId() ==
-//                    GlobalConstants.DEFAULT_USER_ID) {
-//                viewHolder.savedVideoImageView.setBackgroundResource(R.drawable.video_save);
-//               //gk showConfirmLoginDialog(GlobalConstants.LOGIN_MESSAGE);
-//            } else {
+            if (AppController.getInstance().getModelFacade().getLocalModel().getUserId() ==
+                    GlobalConstants.DEFAULT_USER_ID) {
+                viewHolder.savedVideoImageView.setBackgroundResource(R.drawable.video_save);
+                showConfirmLoginDialog(GlobalConstants.LOGIN_MESSAGE);
+            } else {
                 System.out.println("favorite position : " + pos);
                 if (videoDtoArrayList.get(pos).isVideoIsFavorite()) {
                     isFavoriteChecked = false;
@@ -307,11 +322,58 @@ public class VideoDetailFragment extends Fragment implements VideoDetailAdapter.
                 };
 
                 mPostTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-         //gk   }
+            }
         } else {
-          //gk  ((MainActivity) context).showToastMessage(GlobalConstants.MSG_NO_CONNECTION);
+            ((HomeScreen) mContext).showToastMessage(GlobalConstants.MSG_NO_CONNECTION);
             viewHolder.savedVideoImageView.setBackgroundResource(R.drawable.video_save);
         }
+    }
+
+    public void showConfirmLoginDialog(String message) {
+        AlertDialog alertDialog = null;
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
+        alertDialogBuilder
+                .setMessage(message);
+        alertDialogBuilder.setTitle("Alert");
+        alertDialogBuilder.setPositiveButton("Ok",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                        mContext.stopService(new Intent(mContext, TrendingFeaturedVideoService.class));
+
+                        VaultDatabaseHelper.getInstance(mContext.getApplicationContext()).removeAllRecords();
+
+                        SharedPreferences prefs = mContext.getSharedPreferences(GlobalConstants.PREF_PACKAGE_NAME,
+                                Context.MODE_PRIVATE);
+                        prefs.edit().putLong(GlobalConstants.PREF_VAULT_USER_ID_LONG, 0).commit();
+//                        prefs.edit().putBoolean(GlobalConstants.PREF_PULL_OPTION_HEADER, false).commit();
+
+                        Intent intent = new Intent(mContext, LoginEmailActivity.class);
+                        mContext.startActivity(intent);
+                        ((HomeScreen)mContext).finish();
+//                        context.finish();
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                    }
+                });
+
+        alertDialog = alertDialogBuilder.create();
+        alertDialog.setCancelable(false);
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.show();
+        Button nbutton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        nbutton.setAllCaps(false);
+        nbutton.setTextColor(mContext.getResources().getColor(R.color.apptheme_color));
+        Button pbutton = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        pbutton.setTextColor(mContext.getResources().getColor(R.color.apptheme_color));
+        pbutton.setAllCaps(false);
     }
 
     public class PullRefreshTask extends AsyncTask<Void, Void, ArrayList<VideoDTO>> {
@@ -330,7 +392,10 @@ public class VideoDetailFragment extends Fragment implements VideoDetailAdapter.
         @Override
         protected ArrayList<VideoDTO> doInBackground(Void... params) {
             try {
-                    int userId = 1110;
+                SharedPreferences pref = AppController.getInstance().getApplicationContext().
+                        getSharedPreferences(GlobalConstants.PREF_PACKAGE_NAME, Context.MODE_PRIVATE);
+                long userId = pref.getLong(GlobalConstants.PREF_VAULT_USER_ID_LONG, 0);
+
                     String url = GlobalConstants.PLAYLIST_VIDEO_URL + "userid=" + userId + "&playlistid=" + playlistId;
                     videoDtoArrayList.clear();
                     videoDtoArrayList.addAll(AppController.getInstance().getServiceManager().

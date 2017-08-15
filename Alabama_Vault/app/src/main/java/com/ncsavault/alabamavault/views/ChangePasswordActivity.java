@@ -41,7 +41,7 @@ import com.ncsavault.alabamavault.utils.Utils;
 import java.lang.reflect.Type;
 
 /**
- * Created by aqeeb.pathan on 22-04-2015.
+ * Created by gauravkumar.singh on 16-08-2017.
  */
 public class ChangePasswordActivity extends BaseActivity implements TextWatcher, AbstractView {
 
@@ -52,7 +52,6 @@ public class ChangePasswordActivity extends BaseActivity implements TextWatcher,
     private TextView tvBack;
     private CheckBox chkShowPassword;
     private LinearLayout ll_header_image;
-    private ScrollView scrollView;
 
     private boolean isAllFieldsChecked = false;
     private boolean isEditing = false;
@@ -108,7 +107,7 @@ public class ChangePasswordActivity extends BaseActivity implements TextWatcher,
         tvBack = (TextView) findViewById(R.id.tv_back);
         chkShowPassword = (CheckBox) findViewById(R.id.chk_show_password);
         ll_header_image = (LinearLayout) findViewById(R.id.ll_header_image);
-        scrollView = (ScrollView) findViewById(R.id.scroll_view);
+
     }
 
     @Override
@@ -128,7 +127,7 @@ public class ChangePasswordActivity extends BaseActivity implements TextWatcher,
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(dimension, dimension);
         lp.setMargins(0, 20, 0, 0);
         lp.gravity = Gravity.CENTER_HORIZONTAL;
-        ll_header_image.setLayoutParams(lp);
+       // ll_header_image.setLayoutParams(lp);
     }
 
     @Override
@@ -136,14 +135,6 @@ public class ChangePasswordActivity extends BaseActivity implements TextWatcher,
         edOldPassword.addTextChangedListener(this);
         edNewPassword.addTextChangedListener(this);
         edConfirmPassword.addTextChangedListener(this);
-
-        scrollView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                return false;
-            }
-        });
 
 
         edOldPassword.setOnEditorActionListener(new EditText.OnEditorActionListener() {

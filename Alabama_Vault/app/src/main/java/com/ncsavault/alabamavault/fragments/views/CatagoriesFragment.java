@@ -2,6 +2,7 @@ package com.ncsavault.alabamavault.fragments.views;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -143,7 +144,9 @@ public class CatagoriesFragment extends Fragment implements CatagoriesAdapter.On
             protected ArrayList<CatagoriesTabDao> doInBackground(Void... params) {
 
                 try {
-                    int userId = 1110;
+                    SharedPreferences pref = AppController.getInstance().getApplicationContext().
+                            getSharedPreferences(GlobalConstants.PREF_PACKAGE_NAME, Context.MODE_PRIVATE);
+                    long userId = pref.getLong(GlobalConstants.PREF_VAULT_USER_ID_LONG, 0);
                     String url = GlobalConstants.CATEGORIES_TAB_URL + "userid=" + userId;
                     catagoriesTabList.clear();
                     catagoriesTabList.addAll(AppController.getInstance().getServiceManager().getVaultService().getCategoriesData(url));

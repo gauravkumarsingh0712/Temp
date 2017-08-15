@@ -13,8 +13,12 @@ import android.widget.LinearLayout;
 import com.bumptech.glide.Glide;
 import com.ncsavault.alabamavault.R;
 import com.ncsavault.alabamavault.dto.VideoDTO;
+import com.ncsavault.alabamavault.fragments.views.VideoDetailFragment;
+import com.ncsavault.alabamavault.globalconstants.GlobalConstants;
+import com.ncsavault.alabamavault.utils.Utils;
 import com.ncsavault.alabamavault.views.HomeScreen;
 import com.ncsavault.alabamavault.views.VideoDetailActivity;
+import com.ncsavault.alabamavault.views.VideoInfoActivity;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
@@ -35,7 +39,7 @@ public class HorizontalPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(ViewGroup container, final int position) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_cover, null);
         try {
 
@@ -53,8 +57,28 @@ public class HorizontalPagerAdapter extends PagerAdapter {
             imageCover.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, VideoDetailActivity.class);
-                    context.startActivity(intent);
+                    if (Utils.isInternetAvailable(context)) {
+                        if (trendingVideosList.get(position).getVideoLongUrl() != null) {
+                            if (trendingVideosList.get(position).getVideoLongUrl().length() > 0
+                                    && !trendingVideosList.get(position).getVideoLongUrl().toLowerCase().equals("none")) {
+                                String videoCategory = GlobalConstants.FEATURED;
+                                Intent intent = new Intent(context, VideoInfoActivity.class);
+                                intent.putExtra(GlobalConstants.KEY_CATEGORY, videoCategory);
+                                intent.putExtra(GlobalConstants.VIDEO_OBJ, trendingVideosList.get(position));
+                                GlobalConstants.LIST_FRAGMENT = new VideoDetailFragment();
+                                GlobalConstants.LIST_ITEM_POSITION = position;
+                                context.startActivity(intent);
+                                ((HomeScreen)context).overridePendingTransition(R.anim.slide_up_video_info, R.anim.nochange);
+                            } else {
+                                ((HomeScreen) context).showToastMessage(GlobalConstants.MSG_NO_INFO_AVAILABLE);
+                            }
+                        } else {
+                            ((HomeScreen) context).showToastMessage(GlobalConstants.MSG_NO_INFO_AVAILABLE);
+                        }
+                    } else {
+                        ((HomeScreen) context).showToastMessage(GlobalConstants.MSG_NO_CONNECTION);
+                    }
+
                 }
             });
 

@@ -452,7 +452,8 @@ public class UserProfileActivity extends PermissionActivity implements TextWatch
 
                     // prefs.edit().putBoolean(FACEBOOK_LINKING, true).apply();
                     if (Profile.getCurrentProfile() == null) {
-                        LoginManager.getInstance().logInWithReadPermissions(UserProfileActivity.this, Arrays.asList(GlobalConstants.FACEBOOK_PERMISSION));
+                        LoginManager.getInstance().logInWithReadPermissions(UserProfileActivity.this,
+                                Arrays.asList(GlobalConstants.FACEBOOK_PERMISSION));
                     }else
                     {
 

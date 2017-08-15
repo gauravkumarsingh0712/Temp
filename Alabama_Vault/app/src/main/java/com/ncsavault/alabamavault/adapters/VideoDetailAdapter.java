@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -117,15 +118,18 @@ public class VideoDetailAdapter extends RecyclerView.Adapter<VideoDetailAdapter.
             viewHolder.videoDurationTextView.setText(convertSecondsToHMmSs(videoDuration));
         }
 
-        if (newVideoDto.isVideoIsFavorite())
+        if (newVideoDto.isVideoIsFavorite()) {
             viewHolder.savedVideoImageView.setImageResource(R.drawable.saved_video_img);
-        else
+        } else {
             viewHolder.savedVideoImageView.setImageResource(R.drawable.video_save);
+        }
 
-        if (VaultDatabaseHelper.getInstance(mContext.getApplicationContext()).isFavorite(newVideoDto.getVideoId()))
+        if (VaultDatabaseHelper.getInstance(mContext.getApplicationContext()).
+                isFavorite(newVideoDto.getVideoId())) {
             viewHolder.savedVideoImageView.setImageResource(R.drawable.saved_video_img);
-        else
+        } else {
             viewHolder.savedVideoImageView.setImageResource(R.drawable.video_save);
+        }
 
         mVideoClickListener.onClick(viewHolder,position);
 
@@ -138,6 +142,7 @@ public class VideoDetailAdapter extends RecyclerView.Adapter<VideoDetailAdapter.
         TextView videoNameTextView,videoDescriptionTextView,videoDurationTextView;
         private ProgressBar progressBar;
         public RelativeLayout videoRelativeLayout;
+        public LinearLayout mLayoutSavedImage;
 
         public VideoViewHolder(View view) {
             super(view);
@@ -147,6 +152,7 @@ public class VideoDetailAdapter extends RecyclerView.Adapter<VideoDetailAdapter.
             videoDescriptionTextView = (TextView) view.findViewById(R.id.tv_video_description);
             videoDurationTextView = (TextView) view.findViewById(R.id.tv_video_duration);
             progressBar = (ProgressBar) view.findViewById(R.id.progressbar);
+            mLayoutSavedImage = (LinearLayout) view.findViewById(R.id.layout_saved_image);
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                 progressBar.setIndeterminateDrawable(mContext.getResources().getDrawable(R.drawable
                         .circle_progress_bar_lower));

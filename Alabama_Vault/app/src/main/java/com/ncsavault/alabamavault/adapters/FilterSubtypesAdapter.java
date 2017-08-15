@@ -1,10 +1,15 @@
 package com.ncsavault.alabamavault.adapters;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
@@ -14,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -25,9 +31,16 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.ncsavault.alabamavault.R;
 import com.ncsavault.alabamavault.controllers.AppController;
+import com.ncsavault.alabamavault.database.VaultDatabaseHelper;
 import com.ncsavault.alabamavault.dto.TabBannerDTO;
 import com.ncsavault.alabamavault.dto.VideoDTO;
+import com.ncsavault.alabamavault.fragments.views.VideoDetailFragment;
+import com.ncsavault.alabamavault.globalconstants.GlobalConstants;
+import com.ncsavault.alabamavault.service.TrendingFeaturedVideoService;
+import com.ncsavault.alabamavault.utils.Utils;
 import com.ncsavault.alabamavault.views.HomeScreen;
+import com.ncsavault.alabamavault.views.LoginEmailActivity;
+import com.ncsavault.alabamavault.views.VideoInfoActivity;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -60,6 +73,9 @@ public class FilterSubtypesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     public ArrayList<VideoDTO> trendingVideoList=new ArrayList<>();
     BannerClickListener bannerClickListener;
+    AsyncTask<Void, Void, Void> mPostTask;
+    private boolean isFavoriteChecked;
+    private String postResult;
 
 
     public FilterSubtypesAdapter(Activity mContext, List<VideoDTO> albumList, ArrayList<VideoDTO> trendingVideoList, BannerClickListener bannerClickListener) {
@@ -167,7 +183,7 @@ public class FilterSubtypesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 //
                    // if (albumList.size() > 0) {
 
-                        VideoDTO videoDTO = (VideoDTO) albumList.get(position);
+                       final VideoDTO videoDTO = (VideoDTO) albumList.get(position);
                         com.nostra13.universalimageloader.core.ImageLoader.getInstance().
                                 displayImage(videoDTO.getVideoStillUrl(),
                                 vhHeader.videoImage, options, new ImageLoadingListener() {
@@ -193,6 +209,56 @@ public class FilterSubtypesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                 });
 
                         vhHeader.mVideoName.setText(videoDTO.getVideoName());
+
+                    vhHeader.videoImage.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (Utils.isInternetAvailable(mContext)) {
+                                if (videoDTO.getVideoLongUrl() != null) {
+                                    if (videoDTO.getVideoLongUrl().length() > 0
+                                            && !videoDTO.getVideoLongUrl().toLowerCase().equals("none")) {
+                                        String videoCategory = GlobalConstants.FEATURED;
+                                        Intent intent = new Intent(mContext, VideoInfoActivity.class);
+                                        intent.putExtra(GlobalConstants.KEY_CATEGORY, videoCategory);
+                                        intent.putExtra(GlobalConstants.VIDEO_OBJ, videoDTO);
+                                        GlobalConstants.LIST_FRAGMENT = new VideoDetailFragment();
+                                        GlobalConstants.LIST_ITEM_POSITION = position;
+                                        mContext.startActivity(intent);
+                                        ((HomeScreen)mContext).overridePendingTransition(R.anim.slide_up_video_info,
+                                                R.anim.nochange);
+                                    } else {
+                                        ((HomeScreen) mContext).showToastMessage(GlobalConstants.MSG_NO_INFO_AVAILABLE);
+                                    }
+                                } else {
+                                    ((HomeScreen) mContext).showToastMessage(GlobalConstants.MSG_NO_INFO_AVAILABLE);
+                                }
+                            } else {
+                                ((HomeScreen) mContext).showToastMessage(GlobalConstants.MSG_NO_CONNECTION);
+                            }
+                        }
+                    });
+
+                    vhHeader.savedImage.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            if (videoDTO.isVideoIsFavorite() && ((videoDTO
+                                    .getVideoLongUrl().length() == 0 || videoDTO.getVideoLongUrl()
+                                    .toLowerCase().equals("none")))) {
+                                markFavoriteStatus(vhHeader,position);
+                            } else {
+                                if (videoDTO.getVideoLongUrl().length() > 0 && !videoDTO.getVideoLongUrl().toLowerCase().
+                                        equals("none")) {
+                                    markFavoriteStatus(vhHeader,position);
+                                } else {
+                                  ((HomeScreen) mContext).showToastMessage(GlobalConstants.MSG_NO_INFO_AVAILABLE);
+                                    vhHeader.savedImage.setImageResource(R.drawable.video_save);
+                                }
+                            }
+
+                            notifyDataSetChanged();
+                        }
+                    });
 
                    // }
 
@@ -342,13 +408,15 @@ public class FilterSubtypesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     protected class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView mVideoName;
-        public ImageView videoImage;
+        public ImageView videoImage,savedImage;
         public ProgressBar progressBar;
 
         public MyViewHolder(View view) {
             super(view);
             mVideoName = (TextView) view.findViewById(R.id.video_name);
             videoImage = (ImageView) view.findViewById(R.id.video_image);
+            savedImage = (ImageView) view.findViewById(R.id.saved_imageview);
+
             progressBar = (ProgressBar) view.findViewById(R.id.progressbar);
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                 progressBar.setIndeterminateDrawable(AppController.getInstance().getApplication().getResources().getDrawable(R.drawable.circle_progress_bar_lower));
@@ -391,6 +459,129 @@ public class FilterSubtypesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 .build();
         vhHeader.adView.loadAd(request);
         // Load the Native Express ad.
+    }
+
+
+
+
+    public void markFavoriteStatus(final MyViewHolder viewHolder, final int pos) {
+        if (Utils.isInternetAvailable(mContext)) {
+            if (AppController.getInstance().getModelFacade().getLocalModel().getUserId() ==
+                    GlobalConstants.DEFAULT_USER_ID) {
+                viewHolder.savedImage.setBackgroundResource(R.drawable.video_save);
+                showConfirmLoginDialog(GlobalConstants.LOGIN_MESSAGE);
+            } else {
+                System.out.println("favorite position : " + pos);
+                if (albumList.get(pos).isVideoIsFavorite()) {
+                    isFavoriteChecked = false;
+                    VaultDatabaseHelper.getInstance(mContext.getApplicationContext()).setFavoriteFlag
+                            (0, albumList.get(pos).getVideoId());
+                    albumList.get(pos).setVideoIsFavorite(false);
+                    viewHolder.savedImage.setImageResource(R.drawable.video_save);
+                } else {
+                    isFavoriteChecked = true;
+                    VaultDatabaseHelper.getInstance(mContext.getApplicationContext()).setFavoriteFlag
+                            (1, albumList.get(pos).getVideoId());
+                    albumList.get(pos).setVideoIsFavorite(true);
+                    viewHolder.savedImage.setImageResource(R.drawable.saved_video_img);
+                }
+
+                mPostTask = new AsyncTask<Void, Void, Void>() {
+                    @Override
+                    protected void onPreExecute() {
+                        super.onPreExecute();
+                    }
+
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        try {
+                            postResult = AppController.getInstance().getServiceManager().getVaultService().
+                                    postFavoriteStatus(AppController.getInstance().getModelFacade().getLocalModel()
+                                                    .getUserId(), albumList.get(pos).getVideoId(),
+                                            albumList.get(pos).getPlaylistId(),
+                                            isFavoriteChecked);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Void result) {
+                        try {
+                            System.out.println("favorite position 111 : " + pos);
+                            if (isFavoriteChecked) {
+                                VaultDatabaseHelper.getInstance(mContext.getApplicationContext()).setFavoriteFlag(1,
+                                        albumList.get(pos).getVideoId());
+                                // firebase analytics favoride video
+//                                params.putString(FirebaseAnalytics.Param.ITEM_ID, arrayListVideoDTOs.get(pos).getVideoName());
+//                                params.putString(FirebaseAnalytics.Param.ITEM_NAME, arrayListVideoDTOs.get(pos).getVideoName());
+//                                params.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "video_favorite");
+//                                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, params);
+
+                            }else{
+                                VaultDatabaseHelper.getInstance(mContext.getApplicationContext()).setFavoriteFlag
+                                        (0, albumList.get(pos).getVideoId());
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+
+                mPostTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            }
+        } else {
+            ((HomeScreen) mContext).showToastMessage(GlobalConstants.MSG_NO_CONNECTION);
+            viewHolder.savedImage.setBackgroundResource(R.drawable.video_save);
+        }
+    }
+
+    public void showConfirmLoginDialog(String message) {
+        AlertDialog alertDialog = null;
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
+        alertDialogBuilder
+                .setMessage(message);
+        alertDialogBuilder.setTitle("Alert");
+        alertDialogBuilder.setPositiveButton("Ok",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                        mContext.stopService(new Intent(mContext, TrendingFeaturedVideoService.class));
+
+                        VaultDatabaseHelper.getInstance(mContext.getApplicationContext()).removeAllRecords();
+
+                        SharedPreferences prefs = mContext.getSharedPreferences(GlobalConstants.PREF_PACKAGE_NAME,
+                                Context.MODE_PRIVATE);
+                        prefs.edit().putLong(GlobalConstants.PREF_VAULT_USER_ID_LONG, 0).commit();
+//                        prefs.edit().putBoolean(GlobalConstants.PREF_PULL_OPTION_HEADER, false).commit();
+
+                        Intent intent = new Intent(mContext, LoginEmailActivity.class);
+                        mContext.startActivity(intent);
+                        ((HomeScreen)mContext).finish();
+//                        context.finish();
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                    }
+                });
+
+        alertDialog = alertDialogBuilder.create();
+        alertDialog.setCancelable(false);
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.show();
+        Button nbutton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        nbutton.setAllCaps(false);
+        nbutton.setTextColor(mContext.getResources().getColor(R.color.apptheme_color));
+        Button pbutton = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        pbutton.setTextColor(mContext.getResources().getColor(R.color.apptheme_color));
+        pbutton.setAllCaps(false);
     }
 
 }
